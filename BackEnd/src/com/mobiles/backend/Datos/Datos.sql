@@ -80,11 +80,11 @@ END SP_INSERTACURSOS;
 --  DDL for Procedure SP_INSERTACARRERACURSOS
 --------------------------------------------------------
 
-  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_INSERTACARRERACURSOS" (
+create or replace PROCEDURE "SP_INSERTACARRERACURSOS" (
 p_CODCARRERA IN NUMBER,
-p_CODCURSOS IN VARCHAR2,
-p_ANO IN NUMBER,
-p_CICLO IN NUMBER)
+p_CODCURSOS IN NUMBER,
+p_ANO IN VARCHAR2,
+p_CICLO IN VARCHAR2)
 IS
 BEGIN
 INSERT INTO CARRERACURSOS (CODCARRERA, CODCURSOS, ANO, CICLO)
@@ -328,3 +328,25 @@ RETURN CURSOR_CARRERA_CURSOS;
 
 END;
 --------------------------------------
+BEGIN
+   sp_insertacursos (01,'MOVILES',4,4);
+   sp_insertacursos (02,'INTELIGENCIA',4,3);
+   sp_insertacursos (03,'CONTA',3,4);
+   sp_insertacursos (04,'RH',3,3);
+   COMMIT;
+END;
+
+BEGIN 
+    sp_insertacarrera(001,'INGENIERIA','BACHI');
+    sp_insertacarrera(002,'ADMINISTRACION','BACHI');
+    COMMIT;
+END; 
+
+
+BEGIN
+    sp_insertacarreracursos(001,01,'2020','Iciclo');
+    sp_insertacarreracursos(001,02,'2020','Iciclo');
+    sp_insertacarreracursos(002,03,'2019','Iciclo');
+    sp_insertacarreracursos(002,04,'2019','Iciclo');
+    COMMIT;
+END;
