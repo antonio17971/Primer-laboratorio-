@@ -12,6 +12,12 @@ package com.mobiles.backend.LogicaDeNegocio;
 public class Cursos {
     private int codigo,creditos,horas;
     private String nombre;
+    
+    public Cursos(int codigo, int horas, String nombre) {
+        this.codigo = codigo;
+        this.horas = horas;
+        this.nombre = nombre;
+    }
 
     public int getCodigo() {
         return codigo;
