@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 package com.mobiles.backend.Modelo;
-import com.mobiles.backend.LogicaDeNegocio.Carreras;
+import com.mobiles.backend.LogicaDeNegocio.Carrera;
 import java.util.*;
 /**
  *
  * @author jose1
  */
 public class CarrerasModel extends Observable{
-    Carreras filter;
+    Carrera filter;
     CarreraTableModel carreras;
     HashMap<String,String> errores;
     String mensaje;
@@ -21,13 +21,13 @@ public class CarrerasModel extends Observable{
 
     public void init(){
         
-        filter = new Carreras();
-        List<Carreras> filas = new ArrayList<>();
+        filter = new Carrera();
+        List<Carrera> filas = new ArrayList<>();
         this.setCarrera(filas);
         clearErrors();
     }
     
-    public void setCarrera(List<Carreras> carreras){
+    public void setCarrera(List<Carrera> carreras){
         
         int[] cols={CarreraTableModel.CODIGO_CARRERA, CarreraTableModel.NOMBRE, CarreraTableModel.TITULO};
         this.carreras = new CarreraTableModel(cols, carreras);  
@@ -35,11 +35,11 @@ public class CarrerasModel extends Observable{
         notifyObservers();        
     }
     
-    public Carreras getFilter(){
+    public Carrera getFilter(){
         return filter;
     }
     
-    public void setFilter(Carreras filter){
+    public void setFilter(Carrera filter){
         this.filter = filter;
     }
     
