@@ -9,12 +9,26 @@ package com.mobiles.backend.LogicaDeNegocio;
  *
  * @author jose1
  */
-public class Carreras {
+public class Carrera {
+
     private int codigo;
-    private String nombre, titulo;
+    private String nombre;
+    private String titulo;
+
+    public Carrera(int codigo, String nombre, String titulo) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.titulo = titulo;
+    }
+
+    public Carrera() {
+        this.codigo = 0;
+        this.nombre = new String();
+        this.titulo = new String();
+    }
 
     public int getCodigo() {
-        return codigo;
+        return this.codigo;
     }
 
     public void setCodigo(int codigo) {
@@ -22,7 +36,7 @@ public class Carreras {
     }
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
@@ -30,7 +44,7 @@ public class Carreras {
     }
 
     public String getTitulo() {
-        return titulo;
+        return this.titulo;
     }
 
     public void setTitulo(String titulo) {
@@ -39,7 +53,10 @@ public class Carreras {
 
     @Override
     public String toString() {
-        return "Carreras{" + "codigo=" + codigo + ", nombre=" + nombre + ", titulo=" + titulo + '}';
+        return String.format("Carrera{codigo=%d, nombre=%s, titulo=%s}", 
+                this.getCodigo(), 
+                this.getNombre(), 
+                this.getTitulo());
     }
-    
+
 }
