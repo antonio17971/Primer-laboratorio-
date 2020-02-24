@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.mobiles.backend.Modelo;
-import com.mobiles.backend.LogicaDeNegocio.Carreras;
+import com.mobiles.backend.LogicaDeNegocio.Carrera;
 import java.util.*;
 
 /**

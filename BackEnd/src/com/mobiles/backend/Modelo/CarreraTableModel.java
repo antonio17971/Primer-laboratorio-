@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.mobiles.backend.Modelo;
-import com.mobiles.backend.LogicaDeNegocio.Carreras;
+import com.mobiles.backend.LogicaDeNegocio.Carrera;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 /**
@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CarreraTableModel extends AbstractTableModel{
     
-    List<Carreras> rows;
+    List<Carrera> rows;
     int[] cols;
 
     public static final int CODIGO_CARRERA = 0;
@@ -22,7 +22,7 @@ public class CarreraTableModel extends AbstractTableModel{
 
     String[] colNames = new String[3];
 
-    public CarreraTableModel(int[] cols, List<Carreras> rows) {
+    public CarreraTableModel(int[] cols, List<Carrera> rows) {
         this.cols = cols;
         this.rows = rows;
         initColNames();
@@ -45,7 +45,7 @@ public class CarreraTableModel extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int row, int col) {
-        Carreras carrera = rows.get(row);
+        Carrera carrera = rows.get(row);
         switch (cols[col]) {
             case CODIGO_CARRERA:
                 return carrera.getCodigo();
@@ -58,7 +58,7 @@ public class CarreraTableModel extends AbstractTableModel{
         }
     }
 
-    public Carreras getRowAt(int row) {
+    public Carrera getRowAt(int row) {
         return rows.get(row);
     }
 
