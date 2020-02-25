@@ -5,7 +5,7 @@
  */
 package com.mobiles.backend.Modelo;
 
-import com.mobiles.backend.LogicaDeNegocio.Carreras;
+import com.mobiles.backend.LogicaDeNegocio.Carrera;
 import java.util.*;
 
 /**
@@ -13,16 +13,16 @@ import java.util.*;
  * @author jose1
  */
 public class CarreraModel extends Observable{
-     Carreras current;
+     Carrera current;
     HashMap<String, String> errores;
     String mensaje;
     int modo;
 
-    public Carreras getCurrent() {
+    public Carrera getCurrent() {
         return current;
     }
 
-    public void setCurrent(Carreras current) {
+    public void setCurrent(Carrera current) {
         this.current = current;
         setChanged();
         notifyObservers(); 
