@@ -258,12 +258,15 @@ CREATE OR REPLACE NONEDITIONABLE FUNCTION listar_cursos RETURN types.ref_cursor 
     cursor_cursos types.ref_cursor;
 BEGIN
     OPEN cursor_cursos FOR SELECT
-                               codigo,
-                               nombre,
-                               creditos,
-                               horas
+                               cu.codigo     codigo,
+                               cu.creditos   creditos,
+                               cu.horas      horas,
+                               cu.nombre     nombre,
+                               cc.ano        anho,
+                               cc.ciclo      ciclo
                            FROM
-                               cursos;
+                               cursos          cu
+                               INNER JOIN carreracursos   cc ON cu.codigo = cc.codcursos;
 
     RETURN cursor_cursos;
 END;
