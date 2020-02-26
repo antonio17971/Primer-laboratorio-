@@ -5,7 +5,7 @@
  */
 package com.mobiles.backend.AccesoADatos;
 
-import com.mobiles.backend.LogicaDeNegocio.Cursos;
+import com.mobiles.backend.LogicaDeNegocio.Curso;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,18 +13,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import oracle.jdbc.OracleTypes;
 
-public class ServicioCurso extends Servicio{
+public class ServicioCurso extends Servicio {
     
     private static final String INSERTAR_CURSO = "{call SP_INSERTACURSOS(?,?,?,?)}";
     private static final String MODIFICAR_CURSO = "{call SP_UPDATECURSOS(?,?,?,?)}";
-    
-    // Validar, aun no exisen en la BD
-    private static final String BUSCAR_CURSO = "{?=call SP_BUSCARCURSO(?,?)}";
-    private static final String LISTAR_CURSOS = "{?=call SP_LISTARCURSOS()}";
-    
-    private static final String BORRAR_CURSO = "{call SP_BORRARCURSO(?)}";
-   
-     /*Listar alumnos*/
+    private static final String BUSCAR_CURSO = "{?=call BUSCAR_CURSO(?)}";
+    private static final String BUSCAR_CURSO_NOMBRE = "{?=call BUSCAR_CURSO_NOMBRE(?)}";
+    private static final String LISTAR_CURSOS = "{?=call LISTAR_CURSOS()}";
+    private static final String BORRAR_CURSO = "{call SP_DELETECURSOS(?)}";
+
+    /*Listar alumnos*/
     public Collection listar_curso() throws GlobalException, NoDataException {
         try {
             conectar();
@@ -33,10 +31,10 @@ public class ServicioCurso extends Servicio{
         } catch (SQLException e) {
             throw new NoDataException("La base de datos no se encuentra disponible");
         }
-
+        
         ResultSet rs = null;
         ArrayList coleccion = new ArrayList();
-        Cursos elCurso = null;
+        Curso elCurso = null;
         CallableStatement pstmt = null;
         try {
             pstmt = conexion.prepareCall(LISTAR_CURSOS);
@@ -44,14 +42,16 @@ public class ServicioCurso extends Servicio{
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
-                elCurso = new Cursos(rs.getInt("CODIGO"),
+                elCurso = new Curso(
+                        rs.getInt("CODIGO"),
                         rs.getInt("HORAS"),
-                        rs.getString("NOMBRE"));
+                        rs.getString("NOMBRE"),
+                        rs.getString("ANHO"),
+                        rs.getString("CICLO"));
+                
                 coleccion.add(elCurso);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-
+        } catch (SQLException e) {            
             throw new GlobalException("Sentencia no valida");
         } finally {
             try {
@@ -66,7 +66,7 @@ public class ServicioCurso extends Servicio{
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        if (coleccion == null || coleccion.size() == 0) {
+        if ( coleccion.isEmpty()) {
             throw new NoDataException("No hay datos");
         }
         return coleccion;
