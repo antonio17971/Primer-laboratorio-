@@ -44,6 +44,7 @@ public class ServicioCurso extends Servicio {
             while (rs.next()) {
                 elCurso = new Curso(
                         rs.getInt("CODIGO"),
+                        rs.getInt("CREDITOS"),
                         rs.getInt("HORAS"),
                         rs.getString("NOMBRE"),
                         rs.getString("ANHO"),
