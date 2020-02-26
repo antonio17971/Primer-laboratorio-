@@ -7,6 +7,7 @@ package com.mobiles.backend.AccesoADatos;
 
 import com.mobiles.backend.LogicaDeNegocio.Curso;
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -98,6 +99,76 @@ public class ServicioCurso extends Servicio {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new GlobalException("Llave duplicada");
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+    }
+     
+     public void update_curso(Curso curso) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareStatement(MODIFICAR_CURSO);
+            pstmt.setInt(1, curso.getCodigo());
+            pstmt.setString(2, curso.getNombre());
+            pstmt.setInt(3, curso.getCreditos());
+            pstmt.setInt(4, curso.getHoras());
+            int resultado = pstmt.executeUpdate();
+
+            if (resultado == 0) {
+                throw new NoDataException("No se realizo la actualización");
+            } else {
+                System.out.println("\nModificación Satisfactoria!");
+            }
+        } catch (SQLException e) {
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+    }
+     
+     public void borrar_curso(int id) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareStatement(BORRAR_CURSO);
+            pstmt.setInt(1, id);
+
+            int resultado = pstmt.executeUpdate();
+
+            if (resultado == 0) {
+                throw new NoDataException("No se realizo el borrado");
+            } else {
+                System.out.println("\nEliminación Satisfactoria!");
+            }
+        } catch (SQLException e) {
+            throw new GlobalException("Sentencia no valida");
         } finally {
             try {
                 if (pstmt != null) {

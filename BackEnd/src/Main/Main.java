@@ -19,12 +19,12 @@ public class Main {
          ServicioCurso test;
          test = new ServicioCurso();
          Curso curso = new Curso();
-         curso.setCreditos(5);
-         curso.setNombre("MATEMATICAS");
-         curso.setCreditos(2);
+         curso.setCodigo(0);
+         curso.setNombre("MATEMATICAS 2");
+         curso.setCreditos(10);
          curso.setHoras(6);
-         curso.setAnho("2020");
-         curso.setCiclo("I ciclo");
-         test.insertar_curso(curso);
+         //test.update_curso(curso);
+         test.borrar_curso(0);
+             //System.out.println(test.listar_curso());
      }
 }

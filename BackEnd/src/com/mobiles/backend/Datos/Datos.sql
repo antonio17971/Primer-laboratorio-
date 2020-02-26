@@ -212,7 +212,7 @@ CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_DELETECURSOS" (
     p_codigo IN cursos.codigo%TYPE
 ) IS
 BEGIN
-    DELETE FROM carreras
+    DELETE FROM CURSOS
     WHERE
         codigo = p_codigo;
 
