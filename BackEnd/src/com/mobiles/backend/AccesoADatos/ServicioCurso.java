@@ -14,7 +14,7 @@ import java.util.Collection;
 import oracle.jdbc.OracleTypes;
 
 public class ServicioCurso extends Servicio {
-    
+
     private static final String INSERTAR_CURSO = "{call SP_INSERTACURSOS(?,?,?,?)}";
     private static final String MODIFICAR_CURSO = "{call SP_UPDATECURSOS(?,?,?,?)}";
     private static final String BUSCAR_CURSO = "{?=call BUSCAR_CURSO(?)}";
@@ -31,7 +31,7 @@ public class ServicioCurso extends Servicio {
         } catch (SQLException e) {
             throw new NoDataException("La base de datos no se encuentra disponible");
         }
-        
+
         ResultSet rs = null;
         ArrayList coleccion = new ArrayList();
         Curso elCurso = null;
@@ -44,14 +44,15 @@ public class ServicioCurso extends Servicio {
             while (rs.next()) {
                 elCurso = new Curso(
                         rs.getInt("CODIGO"),
+                        rs.getInt("CREDITOS"),
                         rs.getInt("HORAS"),
                         rs.getString("NOMBRE"),
                         rs.getString("ANHO"),
                         rs.getString("CICLO"));
-                
+
                 coleccion.add(elCurso);
             }
-        } catch (SQLException e) {            
+        } catch (SQLException e) {
             throw new GlobalException("Sentencia no valida");
         } finally {
             try {
@@ -66,7 +67,7 @@ public class ServicioCurso extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        if ( coleccion.isEmpty()) {
+        if (coleccion.isEmpty()) {
             throw new NoDataException("No hay datos");
         }
         return coleccion;
