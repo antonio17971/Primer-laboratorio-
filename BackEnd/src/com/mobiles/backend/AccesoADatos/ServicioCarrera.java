@@ -5,10 +5,274 @@
  */
 package com.mobiles.backend.AccesoADatos;
 
+import com.mobiles.backend.LogicaDeNegocio.Carrera;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import oracle.jdbc.OracleTypes;
+
 /**
  *
  * @author adria
  */
 public class ServicioCarrera extends Servicio{
+    private static final String INSERTAR_CARRERA = "{call SP_INSERTACARRERA(?,?,?)}";
+    private static final String MODIFICAR_CARRERA = "{call SP_UPDATECARRERA(?,?,?)}";
+    private static final String BUSCAR_CARRERA = "{?=call BUSCAR_CARRERA(?)}";
+    private static final String BUSCAR_CARRERA_NOMBRE = "{?=call BUSCAR_CARRERA_NOMBRE(?)}";
+    private static final String LISTAR_CARRERAS = "{?=call LISTAR_CARRERAS()}";
+    private static final String BORRAR_CARRERA  = "{call SP_DELETECARRERAS(?)}";
+    
+    public void insertar_carrera(Carrera carrera) throws GlobalException, NoDataException, SQLException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        CallableStatement pstmt = null;
+
+        try {
+            pstmt = conexion.prepareCall(INSERTAR_CARRERA);
+            pstmt.setInt(1, carrera.getCodigo());
+            pstmt.setString(2, carrera.getNombre());
+            pstmt.setString(3, carrera.getTitulo());
+            boolean resultado = pstmt.execute();
+            if (resultado == true) {
+                throw new NoDataException("No se realizo la insercion");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new GlobalException("Llave duplicada");
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+    }
+    
+    public Collection listar_carrera() throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException ex) {
+            throw new GlobalException("No se ha localizado el Driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+
+        ResultSet rs = null;
+        ArrayList coleccion = new ArrayList();
+        Carrera carrera = null;
+        CallableStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareCall(LISTAR_CARRERAS);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            while (rs.next()) {
+                carrera = new Carrera(
+                        rs.getInt("CODIGO"),
+                        rs.getString("NOMBRE"),
+                        rs.getString("TITULO"));
+                coleccion.add(carrera);
+            }
+        } catch (SQLException e) {
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (coleccion.isEmpty()) {
+            throw new NoDataException("No hay datos");
+        }
+        return coleccion;
+    }
+    
+    public void update_carrera(Carrera carrera) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareStatement(MODIFICAR_CARRERA);
+            pstmt.setInt(1, carrera.getCodigo());
+            pstmt.setString(2, carrera.getNombre());
+            pstmt.setString(3, carrera.getTitulo());
+            int resultado = pstmt.executeUpdate();
+
+            if (resultado == 0) {
+                throw new NoDataException("No se realizo la actualización");
+            } else {
+                System.out.println("\nModificación Satisfactoria!");
+            }
+        } catch (SQLException e) {
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+    }
+    
+    public void borrar_carrera(int id) throws GlobalException, NoDataException {
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareStatement(BORRAR_CARRERA);
+            pstmt.setInt(1, id);
+
+            int resultado = pstmt.executeUpdate();
+
+            if (resultado == 0) {
+                throw new NoDataException("No se realizo el borrado");
+            } else {
+                System.out.println("\nEliminación Satisfactoria!");
+            }
+        } catch (SQLException e) {
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+    }
+    
+    public Carrera buscar_carrera(int id) throws GlobalException, NoDataException {
+
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        ResultSet rs = null;
+        ArrayList coleccion = new ArrayList();
+        Carrera carrera = null;
+        CallableStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareCall(BUSCAR_CARRERA);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setInt(2, id);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            while (rs.next()) {
+                carrera = new Carrera(
+                        rs.getInt("CODIGO"),
+                        rs.getString("NOMBRE"),
+                        rs.getString("TITULO"));
+                coleccion.add(carrera);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (coleccion == null || coleccion.size() == 0) {
+            throw new NoDataException("No hay datos");
+        }
+        return carrera;
+    }
+    
+    public Carrera buscar_carrera_nombre(String nombre) throws GlobalException, NoDataException {
+
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        ResultSet rs = null;
+        ArrayList coleccion = new ArrayList();
+        Carrera carrera = null;
+        CallableStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareCall(BUSCAR_CARRERA_NOMBRE);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setString(2, nombre);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            while (rs.next()) {
+                carrera = new Carrera(
+                        rs.getInt("CODIGO"),
+                        rs.getString("NOMBRE"),
+                        rs.getString("TITULO"));
+                coleccion.add(carrera);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (coleccion == null || coleccion.size() == 0) {
+            throw new NoDataException("No hay datos");
+        }
+        return carrera;
+    }
+
     
 }

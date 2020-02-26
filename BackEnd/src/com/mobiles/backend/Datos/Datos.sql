@@ -272,41 +272,45 @@ BEGIN
 END;
 /
 -----------------------------------------
-CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_curso (
-    p_codigo IN cursos.codigo%TYPE
-) RETURN types.ref_cursor AS
-    cursor_curso types.ref_cursor;
-BEGIN
-    OPEN cursor_curso FOR SELECT
-                              codigo,
-                              nombre,
-                              creditos,
-                              horas
-                          FROM
-                              cursos
-                          WHERE
-                              codigo = p_codigo;
+create or replace FUNCTION BUSCAR_CURSO (P_CODIGO IN CURSOS.CODIGO%TYPE)
 
-    RETURN cursor_curso;
+RETURN TYPES.REF_CURSOR
+AS 
+CURSOR_CURSO TYPES.REF_CURSOR; 
+BEGIN 
+OPEN CURSOR_CURSO FOR SELECT
+                               cu.codigo     codigo,
+                               cu.creditos   creditos,
+                               cu.horas      horas,
+                               cu.nombre     nombre,
+                               cc.ano        anho,
+                               cc.ciclo      ciclo
+                           FROM
+                               cursos          cu
+                               LEFT OUTER JOIN carreracursos   cc ON cu.codigo = cc.codcursos WHERE CODIGO = P_CODIGO ; 
+
+RETURN CURSOR_CURSO; 
+
 END;
 /
 -----------------------------------------
-CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_curso_nombre (
-    p_nombre IN cursos.nombre%TYPE
-) RETURN types.ref_cursor AS
-    cursor_curso_nombre types.ref_cursor;
-BEGIN
-    OPEN cursor_curso_nombre FOR SELECT
-                                     codigo,
-                                     nombre,
-                                     creditos,
-                                     horas
-                                 FROM
-                                     cursos
-                                 WHERE
-                                     nombre = p_nombre;
+create or replace FUNCTION BUSCAR_CURSO_NOMBRE (P_NOMBRE IN CURSOS.NOMBRE%TYPE)
+RETURN TYPES.REF_CURSOR
+AS 
+CURSOR_CURSO_NOMBRE TYPES.REF_CURSOR; 
+BEGIN 
+OPEN CURSOR_CURSO_NOMBRE FOR  SELECT
+                               cu.codigo     codigo,
+                               cu.creditos   creditos,
+                               cu.horas      horas,
+                               cu.nombre     nombre,
+                               cc.ano        anho,
+                               cc.ciclo      ciclo
+                           FROM
+                               cursos          cu
+                               LEFT OUTER JOIN carreracursos   cc ON cu.codigo = cc.codcursos WHERE NOMBRE = P_NOMBRE ; 
 
-    RETURN cursor_curso_nombre;
+RETURN CURSOR_CURSO_NOMBRE; 
 END;
 /
 ---------------------------------------
