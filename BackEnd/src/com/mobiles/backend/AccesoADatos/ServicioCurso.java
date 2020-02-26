@@ -15,7 +15,7 @@ import oracle.jdbc.OracleTypes;
 
 public class ServicioCurso extends Servicio {
     
-    private static final String INSERTAR_CURSO = "{call SP_INSERTACURSOS(?,?,?,?,?,?)}";
+    private static final String INSERTAR_CURSO = "{call SP_INSERTACURSOS(?,?,?,?)}";
     private static final String MODIFICAR_CURSO = "{call SP_UPDATECURSOS(?,?,?,?)}";
     private static final String BUSCAR_CURSO = "{?=call BUSCAR_CURSO(?)}";
     private static final String BUSCAR_CURSO_NOMBRE = "{?=call BUSCAR_CURSO_NOMBRE(?)}";
