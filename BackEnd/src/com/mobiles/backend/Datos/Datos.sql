@@ -51,134 +51,194 @@ ALTER TABLE CARRERACURSOS ADD CONSTRAINT FK_COD_CURSOS FOREIGN  KEY(CODCURSOS) R
 --  DDL for Procedure SP_INSERTACARRERA
 --------------------------------------------------------
 
-  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_INSERTACARRERA" (
-p_CODIGO IN NUMBER,
-p_NOMBRE IN VARCHAR2,
-p_TITULO IN VARCHAR2)
-IS
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_INSERTACARRERA" (
+    p_codigo   IN   NUMBER,
+    p_nombre   IN   VARCHAR2,
+    p_titulo   IN   VARCHAR2
+) IS
 BEGIN
-INSERT INTO CARRERAS (CODIGO, NOMBRE, TITULO)
-VALUES (p_CODIGO, p_NOMBRE, p_TITULO);
-END SP_INSERTACARRERA;
+    INSERT INTO carreras (
+        codigo,
+        nombre,
+        titulo
+    ) VALUES (
+        p_codigo,
+        p_nombre,
+        p_titulo
+    );
+
+END sp_insertacarrera;
 /
 --------------------------------------------------------
 --  DDL for Procedure SP_INSERTACURSOS
 --------------------------------------------------------
 
-  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_INSERTACURSOS" (
-p_CODIGO IN NUMBER,
-p_NOMBRE IN VARCHAR2,
-p_CREDITOS IN NUMBER,
-p_HORAS IN NUMBER)
-IS
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_INSERTACURSOS" (
+    p_codigo     IN   NUMBER,
+    p_nombre     IN   VARCHAR2,
+    p_creditos   IN   NUMBER,
+    p_horas      IN   NUMBER
+) IS
 BEGIN
-INSERT INTO CURSOS (CODIGO, NOMBRE, CREDITOS, HORAS)
-VALUES (p_CODIGO, p_NOMBRE, p_CREDITOS, p_HORAS);
-END SP_INSERTACURSOS;
+    INSERT INTO cursos (
+        codigo,
+        nombre,
+        creditos,
+        horas
+    ) VALUES (
+        p_codigo,
+        p_nombre,
+        p_creditos,
+        p_horas
+    );
+
+END sp_insertacursos;
 /
 --------------------------------------------------------
 --  DDL for Procedure SP_INSERTACARRERACURSOS
 --------------------------------------------------------
 
-create or replace PROCEDURE "SP_INSERTACARRERACURSOS" (
-p_CODCARRERA IN NUMBER,
-p_CODCURSOS IN NUMBER,
-p_ANO IN VARCHAR2,
-p_CICLO IN VARCHAR2)
-IS
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_INSERTACARRERACURSOS" (
+    p_codcarrera   IN   NUMBER,
+    p_codcursos    IN   NUMBER,
+    p_ano          IN   VARCHAR2,
+    p_ciclo        IN   VARCHAR2
+) IS
 BEGIN
-INSERT INTO CARRERACURSOS (CODCARRERA, CODCURSOS, ANO, CICLO)
-VALUES (p_CODCARRERA, p_CODCURSOS, p_ANO, p_CICLO);
-END SP_INSERTACARRERACURSOS;
+    INSERT INTO carreracursos (
+        codcarrera,
+        codcursos,
+        ano,
+        ciclo
+    ) VALUES (
+        p_codcarrera,
+        p_codcursos,
+        p_ano,
+        p_ciclo
+    );
+
+END sp_insertacarreracursos;
 /
 --------------------------------------------------------
 --  DDL for Procedure SP_UPDATECARRERA
 --------------------------------------------------------
 
 CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_UPDATECARRERA" (
-p_CODIGO IN CARRERAS.CODIGO%TYPE,
-p_NOMBRE IN CARRERAS.NOMBRE%TYPE,
-p_TITULO IN CARRERAS.TITULO%TYPE)
-IS
+    p_codigo   IN   carreras.codigo%TYPE,
+    p_nombre   IN   carreras.nombre%TYPE,
+    p_titulo   IN   carreras.titulo%TYPE
+) IS
 BEGIN
-UPDATE CARRERAS SET
-NOMBRE = p_NOMBRE,
-TITULO = p_TITULO
-WHERE CODIGO = p_CODIGO;
-EXCEPTION WHEN OTHERS THEN ROLLBACK;
-END SP_UPDATECARRERA;
+    UPDATE carreras
+    SET
+        nombre = p_nombre,
+        titulo = p_titulo
+    WHERE
+        codigo = p_codigo;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+END sp_updatecarrera;
 /
 --------------------------------------------------------
 --  DDL for Procedure SP_UPDATECURSOS
 --------------------------------------------------------
 CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_UPDATECURSOS" (
-p_CODIGO IN CURSOS.CODIGO%TYPE,
-p_NOMBRE IN CURSOS.NOMBRE%TYPE,
-p_CREDITOS IN CURSOS.CREDITOS%TYPE,
-p_HORAS IN CURSOS.HORAS%TYPE)
-IS
+    p_codigo     IN   cursos.codigo%TYPE,
+    p_nombre     IN   cursos.nombre%TYPE,
+    p_creditos   IN   cursos.creditos%TYPE,
+    p_horas      IN   cursos.horas%TYPE
+) IS
 BEGIN
-UPDATE CURSOS SET
-NOMBRE = p_NOMBRE,
-CREDITOS = p_CREDITOS,
-HORAS = p_HORAS
-WHERE CODIGO = p_CODIGO;
-EXCEPTION WHEN OTHERS THEN ROLLBACK;
-END SP_UPDATECURSOS;
+    UPDATE cursos
+    SET
+        nombre = p_nombre,
+        creditos = p_creditos,
+        horas = p_horas
+    WHERE
+        codigo = p_codigo;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+END sp_updatecursos;
 /
 --------------------------------------------------------
 --  DDL for Procedure SP_UPDATECARRERACURSOS
 --------------------------------------------------------
 CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_UPDATECARRERACURSOS" (
-p_CODCARRERA IN CARRERACURSOS.CODCARRERA%TYPE,
-p_CODCURSOS IN CARRERACURSOS.CODCURSOS%TYPE,
-p_ANO IN CARRERACURSOS.ANO%TYPE,
-p_CICLO IN CARRERACURSOS.CICLO%TYPE)
-IS
+    p_codcarrera   IN   carreracursos.codcarrera%TYPE,
+    p_codcursos    IN   carreracursos.codcursos%TYPE,
+    p_ano          IN   carreracursos.ano%TYPE,
+    p_ciclo        IN   carreracursos.ciclo%TYPE
+) IS
 BEGIN
-UPDATE CARRERACURSOS SET
-ANO = p_ANO,
-CICLO = p_CICLO
-WHERE CODCARRERA = p_CODCARRERA AND CODCURSOS = p_CODCURSOS;
-EXCEPTION WHEN OTHERS THEN ROLLBACK;
-END SP_UPDATECARRERACURSOS;
+    UPDATE carreracursos
+    SET
+        ano = p_ano,
+        ciclo = p_ciclo
+    WHERE
+        codcarrera = p_codcarrera
+        AND codcursos = p_codcursos;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+END sp_updatecarreracursos;
 /
 --------------------------------------------------------
 --  DDL for Procedure SP_DELETECARRERAS
 --------------------------------------------------------
 
-  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_DELETECARRERAS" 
- (p_CODIGO IN CARRERAS.CODIGO%TYPE)
-IS
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_DELETECARRERAS" (
+    p_codigo IN carreras.codigo%TYPE
+) IS
 BEGIN
-DELETE FROM CARRERAS WHERE CODIGO = p_CODIGO;
-EXCEPTION WHEN OTHERS THEN ROLLBACK;
-END SP_DELETECARRERAS;
+    DELETE FROM carreras
+    WHERE
+        codigo = p_codigo;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+END sp_deletecarreras;
 /
 --------------------------------------------------------
 --  DDL for Procedure SP_DELETECURSOS
 --------------------------------------------------------
 
-  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_DELETECURSOS" 
- (p_CODIGO IN CURSOS.CODIGO%TYPE)
-IS
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_DELETECURSOS" (
+    p_codigo IN cursos.codigo%TYPE
+) IS
 BEGIN
-DELETE FROM CARRERAS WHERE CODIGO = p_CODIGO;
-EXCEPTION WHEN OTHERS THEN ROLLBACK;
-END SP_DELETECURSOS;
+    DELETE FROM carreras
+    WHERE
+        codigo = p_codigo;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+END sp_deletecursos;
 /
 --------------------------------------------------------
 --  DDL for Procedure SP_DELETECARRERACURSOS
 --------------------------------------------------------
 
-  CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_DELETECARRERACURSOS" 
- (p_CODCARRERA IN CARRERACURSOS.CODCARRERA%TYPE,
-  p_CODCURSOS IN CARRERACURSOS.CODCURSOS%TYPE)
-IS
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE "SP_DELETECARRERACURSOS" (
+    p_codcarrera   IN   carreracursos.codcarrera%TYPE,
+    p_codcursos    IN   carreracursos.codcursos%TYPE
+) IS
 BEGIN
-DELETE FROM CARRERACURSOS WHERE CODCARRERA = p_CODCARRERA AND CODCURSOS = p_CODCURSOS;
-EXCEPTION WHEN OTHERS THEN ROLLBACK;
-END SP_DELETECARRERACURSOS;
+    DELETE FROM carreracursos
+    WHERE
+        codcarrera = p_codcarrera
+        AND codcursos = p_codcursos;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+END sp_deletecarreracursos;
 
 /
 
@@ -194,139 +254,129 @@ END;
 /
 ----PROCESOS ALMACENADOS DE SELECT 
 
-CREATE OR REPLACE FUNCTION LISTAR_CURSORS
+CREATE OR REPLACE NONEDITIONABLE FUNCTION listar_cursos RETURN types.ref_cursor AS
+    cursor_cursos types.ref_cursor;
+BEGIN
+    OPEN cursor_cursos FOR SELECT
+                               codigo,
+                               nombre,
+                               creditos,
+                               horas
+                           FROM
+                               cursos;
 
-RETURN TYPES.REF_CURSOR
-
-AS 
-
-CURSOR_CURSOS TYPES.REF_CURSOR; 
-
-BEGIN 
-
-OPEN CURSOR_CURSOS FOR 
-
-SELECT * FROM CURSOS; 
-
-RETURN CURSOR_CURSOS; 
-
+    RETURN cursor_cursos;
 END;
 /
 -----------------------------------------
-CREATE OR REPLACE FUNCTION BUSCAR_CURSO (P_CODIGO IN CURSOS.CODIGO%TYPE)
+CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_curso (
+    p_codigo IN cursos.codigo%TYPE
+) RETURN types.ref_cursor AS
+    cursor_curso types.ref_cursor;
+BEGIN
+    OPEN cursor_curso FOR SELECT
+                              codigo,
+                              nombre,
+                              creditos,
+                              horas
+                          FROM
+                              cursos
+                          WHERE
+                              codigo = p_codigo;
 
-RETURN TYPES.REF_CURSOR
-
-AS 
-
-CURSOR_CURSO TYPES.REF_CURSOR; 
-
-BEGIN 
-
-OPEN CURSOR_CURSO FOR 
-
-SELECT * FROM CURSOS WHERE CODIGO = P_CODIGO ; 
-
-RETURN CURSOR_CURSO; 
-
+    RETURN cursor_curso;
 END;
 /
 -----------------------------------------
-CREATE OR REPLACE FUNCTION BUSCAR_CURSO_NOMBRE (P_NOMBRE IN CURSOS.NOMBRE%TYPE)
+CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_curso_nombre (
+    p_nombre IN cursos.nombre%TYPE
+) RETURN types.ref_cursor AS
+    cursor_curso_nombre types.ref_cursor;
+BEGIN
+    OPEN cursor_curso_nombre FOR SELECT
+                                     codigo,
+                                     nombre,
+                                     creditos,
+                                     horas
+                                 FROM
+                                     cursos
+                                 WHERE
+                                     nombre = p_nombre;
 
-RETURN TYPES.REF_CURSOR
+    RETURN cursor_curso_nombre;
+END;
+/
+---------------------------------------
+CREATE OR REPLACE NONEDITIONABLE FUNCTION listar_carreras RETURN types.ref_cursor AS
+    cursor_carreras types.ref_cursor;
+BEGIN
+    OPEN cursor_carreras FOR SELECT
+                                 codigo,
+                                 nombre,
+                                 creditos,
+                                 horas
+                             FROM
+                                 cursos;
 
-AS 
+    RETURN cursor_carreras;
+END;
+/
+-----------------------------------------
+CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_carrera (
+    p_codigo IN carreras.codigo%TYPE
+) RETURN types.ref_cursor AS
+    cursor_carrera types.ref_cursor;
+BEGIN
+    OPEN cursor_carrera FOR SELECT
+                                *
+                            FROM
+                                carreras
+                            WHERE
+                                codigo = p_codigo;
 
-CURSOR_CURSO_NOMBRE TYPES.REF_CURSOR; 
-
-BEGIN 
-
-OPEN CURSOR_CURSO_NOMBRE FOR 
-
-SELECT * FROM CURSOS WHERE NOMBRE = P_NOMBRE ; 
-
-RETURN CURSOR_CURSO_NOMBRE; 
-
+    RETURN cursor_carrera;
 END;
 /
 ---------------------------------------
 
-CREATE OR REPLACE FUNCTION LISTAR_CARRERAS
+CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_carrera_nombre (
+    p_nombre IN carreras.nombre%TYPE
+) RETURN types.ref_cursor AS
+    cursor_carrera_nombre types.ref_cursor;
+BEGIN
+    OPEN cursor_carrera_nombre FOR SELECT
+                                       codigo,
+                                       nombre,
+                                       titulo
+                                   FROM
+                                       carreras
+                                   WHERE
+                                       nombre = p_nombre;
 
-RETURN TYPES.REF_CURSOR
-
-AS 
-
-CURSOR_CARRERAS TYPES.REF_CURSOR; 
-
-BEGIN 
-
-OPEN CURSOR_CARRERAS FOR 
-
-SELECT * FROM CURSOS; 
-
-RETURN CURSOR_CARRERAS; 
-
-END;
-/
------------------------------------------
-CREATE OR REPLACE FUNCTION BUSCAR_CARRERA (P_CODIGO IN CARRERA.CODIGO%TYPE)
-
-RETURN TYPES.REF_CURSOR
-
-AS 
-
-CURSOR_CARRERA TYPES.REF_CURSOR; 
-
-BEGIN 
-
-OPEN CURSOR_CARRERA FOR 
-
-SELECT * FROM CARRERAS WHERE CODIGO = P_CODIGO ; 
-
-RETURN CURSOR_CARRERA; 
-
+    RETURN cursor_carrera_nombre;
 END;
 /
 ---------------------------------------
-
-CREATE OR REPLACE FUNCTION BUSCAR_CARRERA_NOMBRE (P_NOMBRE IN CARRERAS.NOMBRE%TYPE)
-
-RETURN TYPES.REF_CURSOR
-
-AS 
-
-CURSOR_CARRERA_NOMBRE TYPES.REF_CURSOR; 
-
-BEGIN 
-
-OPEN CURSOR_CARRERA_NOMBRE FOR 
-
-SELECT * FROM CARRERAS WHERE NOMBRE = P_NOMBRE ; 
-
-RETURN CURSOR_CARRERA_NOMBRE; 
-
-END;
-/
+-- NO FUNCIONA
 ---------------------------------------
-CREATE OR REPLACE FUNCTION BUSCAR_CARRERS_CURSOS (P_CODIGO IN CARRERACURSOS.NOMBRE%TYPE)
-
-RETURN TYPES.REF_CURSOR
-
-AS 
-
-CURSOR_CARRERA_CURSOS TYPES.REF_CURSOR; 
-
-BEGIN 
-
-OPEN CURSOR_CARRERA_CURSOS FOR 
-
-SELECT * FROM CARRERACURSOS WHERE NOMBRE = P_NOMBRE ; 
-
-RETURN CURSOR_CARRERA_CURSOS; 
-
-END;
+-- CREATE OR REPLACE FUNCTION BUSCAR_CARRERS_CURSOS (P_CODIGO IN CARRERACURSOS.NOMBRE%TYPE)
+-- 
+-- RETURN TYPES.REF_CURSOR
+-- 
+-- AS 
+-- 
+-- CURSOR_CARRERA_CURSOS TYPES.REF_CURSOR; 
+-- 
+-- BEGIN 
+-- 
+-- OPEN CURSOR_CARRERA_CURSOS FOR 
+-- 
+-- SELECT * FROM CARRERACURSOS WHERE NOMBRE = P_NOMBRE ; 
+-- 
+-- RETURN CURSOR_CARRERA_CURSOS; 
+-- 
+-- END;
+-- /
 --------------------------------------
 BEGIN
    sp_insertacursos (01,'MOVILES',4,4);
@@ -341,7 +391,7 @@ BEGIN
     sp_insertacarrera(002,'ADMINISTRACION','BACHI');
     COMMIT;
 END; 
-
+/
 
 BEGIN
     sp_insertacarreracursos(001,01,'2020','Iciclo');
