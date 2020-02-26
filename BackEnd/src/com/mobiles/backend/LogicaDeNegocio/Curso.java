@@ -15,20 +15,21 @@ public class Curso {
     private int codigo;
     private int creditos;
     private int horas;
-    
+
     private String nombre;
     private String anho;
     private String ciclo;
 
-    public Curso(int codigo, int horas, String nombre, String anho, String ciclo) {
+    public Curso(int codigo, int creditos, int horas, String nombre, String anho, String ciclo) {
         this.codigo = codigo;
         this.horas = horas;
+        this.creditos = creditos;
         this.nombre = nombre;
         this.anho = anho;
         this.ciclo = ciclo;
     }
-    
-    public Curso(){
+
+    public Curso() {
         this.codigo = 0;
         this.horas = 0;
         this.creditos = 0;
