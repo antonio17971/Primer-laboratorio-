@@ -24,7 +24,7 @@ public class Main {
          curso.setCreditos(10);
          curso.setHoras(6);
          //test.update_curso(curso);
-         test.borrar_curso(0);
-             //System.out.println(test.listar_curso());
+         //test.borrar_curso(0);
+            System.out.println(test.buscar_curso_nombre("MOVILES"));
      }
 }

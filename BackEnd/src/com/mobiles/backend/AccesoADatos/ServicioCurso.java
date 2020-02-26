@@ -111,6 +111,110 @@ public class ServicioCurso extends Servicio {
         }
     }
      
+     public Curso buscar_curso(int id) throws GlobalException, NoDataException {
+
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        ResultSet rs = null;
+        ArrayList coleccion = new ArrayList();
+        Curso elCurso = null;
+        CallableStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareCall(BUSCAR_CURSO);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setInt(2, id);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            while (rs.next()) {
+                elCurso = new Curso(
+                        rs.getInt("CODIGO"),
+                        rs.getInt("CREDITOS"),
+                        rs.getInt("HORAS"),
+                        rs.getString("NOMBRE"),
+                        rs.getString("ANHO"),
+                        rs.getString("CICLO"));
+                coleccion.add(elCurso);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (coleccion == null || coleccion.size() == 0) {
+            throw new NoDataException("No hay datos");
+        }
+        return elCurso;
+    }
+     
+      public Curso buscar_curso_nombre(String nombre) throws GlobalException, NoDataException {
+
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        ResultSet rs = null;
+        ArrayList coleccion = new ArrayList();
+        Curso elCurso = null;
+        CallableStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareCall(BUSCAR_CURSO_NOMBRE);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setString(2, nombre);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            while (rs.next()) {
+                elCurso = new Curso(
+                        rs.getInt("CODIGO"),
+                        rs.getInt("CREDITOS"),
+                        rs.getInt("HORAS"),
+                        rs.getString("NOMBRE"),
+                        rs.getString("ANHO"),
+                        rs.getString("CICLO"));
+                coleccion.add(elCurso);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (coleccion == null || coleccion.size() == 0) {
+            throw new NoDataException("No hay datos");
+        }
+        return elCurso;
+    }
+     
      public void update_curso(Curso curso) throws GlobalException, NoDataException {
         try {
             conectar();
