@@ -8,6 +8,7 @@ package Main;
 import com.mobiles.backend.AccesoADatos.GlobalException;
 import com.mobiles.backend.AccesoADatos.NoDataException;
 import com.mobiles.backend.AccesoADatos.ServicioCurso;
+import com.mobiles.backend.LogicaDeNegocio.Curso;
 
 /**
  *
@@ -17,7 +18,13 @@ public class Main {
          public static void main(String[] args) throws GlobalException, NoDataException {
          ServicioCurso test;
          test = new ServicioCurso();
-         test.listar_curso();
-             System.out.println("Main.Main.main()");
+         Curso curso = new Curso();
+         curso.setCreditos(5);
+         curso.setNombre("MATEMATICAS");
+         curso.setCreditos(2);
+         curso.setHoras(6);
+         curso.setAnho("2020");
+         curso.setCiclo("I ciclo");
+         test.insertar_curso(curso);
      }
 }
