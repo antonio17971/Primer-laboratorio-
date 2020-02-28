@@ -5,7 +5,7 @@
  */
 package com.mobiles.backend.AccesoADatos;
 
-import com.mobiles.backend.LogicaDeNegocio.Carrera;
+import com.mobiles.backend.Entidades.Carrera;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,13 +18,18 @@ import oracle.jdbc.OracleTypes;
  *
  * @author adria
  */
-public class ServicioCarrera extends Servicio{
+public class ServicioCarrera extends Servicio {
+
     private static final String INSERTAR_CARRERA = "{call SP_INSERTACARRERA(?,?,?)}";
     private static final String MODIFICAR_CARRERA = "{call SP_UPDATECARRERA(?,?,?)}";
     private static final String BUSCAR_CARRERA = "{?=call BUSCAR_CARRERA(?)}";
     private static final String BUSCAR_CARRERA_NOMBRE = "{?=call BUSCAR_CARRERA_NOMBRE(?)}";
     private static final String LISTAR_CARRERAS = "{?=call LISTAR_CARRERAS()}";
-    private static final String BORRAR_CARRERA  = "{call SP_DELETECARRERAS(?)}";
+    private static final String BORRAR_CARRERA = "{call SP_DELETECARRERAS(?)}";
+    
+    public ServicioCarrera(){
+        super();
+    }
     
     public void insertar_carrera(Carrera carrera) throws GlobalException, NoDataException, SQLException {
         try {
@@ -60,7 +65,7 @@ public class ServicioCarrera extends Servicio{
             }
         }
     }
-    
+
     public Collection listar_carrera() throws GlobalException, NoDataException {
         try {
             conectar();
@@ -106,7 +111,7 @@ public class ServicioCarrera extends Servicio{
         }
         return coleccion;
     }
-    
+
     public void update_carrera(Carrera carrera) throws GlobalException, NoDataException {
         try {
             conectar();
@@ -141,7 +146,7 @@ public class ServicioCarrera extends Servicio{
             }
         }
     }
-    
+
     public void borrar_carrera(int id) throws GlobalException, NoDataException {
         try {
             conectar();
@@ -175,7 +180,7 @@ public class ServicioCarrera extends Servicio{
             }
         }
     }
-    
+
     public Carrera buscar_carrera(int id) throws GlobalException, NoDataException {
 
         try {
@@ -219,12 +224,12 @@ public class ServicioCarrera extends Servicio{
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        if (coleccion == null || coleccion.size() == 0) {
+        if (coleccion.isEmpty()) {
             throw new NoDataException("No hay datos");
         }
         return carrera;
     }
-    
+
     public Carrera buscar_carrera_nombre(String nombre) throws GlobalException, NoDataException {
 
         try {
@@ -268,11 +273,9 @@ public class ServicioCarrera extends Servicio{
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        if (coleccion == null || coleccion.size() == 0) {
+        if (coleccion.isEmpty()) {
             throw new NoDataException("No hay datos");
         }
         return carrera;
     }
-
-    
 }
