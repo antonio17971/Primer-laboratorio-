@@ -5,7 +5,7 @@
  */
 package com.mobiles.backend.AccesoADatos;
 
-import com.mobiles.backend.LogicaDeNegocio.Curso;
+import com.mobiles.backend.Entidades.Curso;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,10 @@ public class ServicioCurso extends Servicio {
     private static final String LISTAR_CURSOS = "{?=call LISTAR_CURSOS()}";
     private static final String BORRAR_CURSO = "{call SP_DELETECURSOS(?)}";
 
-    /*Listar alumnos*/
+    public ServicioCurso() {
+        super();
+    }
+
     public Collection listar_curso() throws GlobalException, NoDataException {
         try {
             conectar();
@@ -73,9 +76,8 @@ public class ServicioCurso extends Servicio {
         }
         return coleccion;
     }
-    
-    
-     public void insertar_curso(Curso curso) throws GlobalException, NoDataException {
+
+    public Curso insertar_curso(Curso curso) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -97,7 +99,6 @@ public class ServicioCurso extends Servicio {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new GlobalException("Llave duplicada");
         } finally {
             try {
@@ -109,9 +110,10 @@ public class ServicioCurso extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
+        return curso;
     }
-     
-     public Curso buscar_curso(int id) throws GlobalException, NoDataException {
+
+    public Collection buscar_curso(int id) throws GlobalException, NoDataException {
 
         try {
             conectar();
@@ -141,8 +143,6 @@ public class ServicioCurso extends Servicio {
                 coleccion.add(elCurso);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-
             throw new GlobalException("Sentencia no valida");
         } finally {
             try {
@@ -157,13 +157,13 @@ public class ServicioCurso extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        if (coleccion == null || coleccion.size() == 0) {
+        if (coleccion.isEmpty()) {
             throw new NoDataException("No hay datos");
         }
-        return elCurso;
+        return coleccion;
     }
-     
-      public Curso buscar_curso_nombre(String nombre) throws GlobalException, NoDataException {
+
+    public Collection buscar_curso_nombre(String nombre) throws GlobalException, NoDataException {
 
         try {
             conectar();
@@ -193,8 +193,6 @@ public class ServicioCurso extends Servicio {
                 coleccion.add(elCurso);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-
             throw new GlobalException("Sentencia no valida");
         } finally {
             try {
@@ -209,13 +207,13 @@ public class ServicioCurso extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        if (coleccion == null || coleccion.size() == 0) {
+        if (coleccion.isEmpty()) {
             throw new NoDataException("No hay datos");
         }
-        return elCurso;
+        return coleccion;
     }
-     
-     public void update_curso(Curso curso) throws GlobalException, NoDataException {
+
+    public void update_curso(Curso curso) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -250,8 +248,8 @@ public class ServicioCurso extends Servicio {
             }
         }
     }
-     
-     public void borrar_curso(int id) throws GlobalException, NoDataException {
+
+    public void borrar_curso(int id) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
