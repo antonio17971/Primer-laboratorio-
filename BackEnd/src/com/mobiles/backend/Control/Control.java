@@ -35,6 +35,7 @@ public class Control {
         return instance;
     }
     
+    //-------------- Cursos ------------------------- 
     public Collection listarCursos() throws GlobalException, NoDataException{
         return this.getServicioCurso().listar_curso();
     }
@@ -54,5 +55,10 @@ public class Control {
     public Curso insertarCurso(Curso curso) throws GlobalException, NoDataException{
         return this.getServicioCurso().insertar_curso(curso);
     }
+    public Curso actualizarCurso(Curso curso){
+        return this.getServicioCurso().update_curso(curso);
+    }
+            
+    //-------------- Cursos ------------------------- 
 
 }

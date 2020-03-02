@@ -213,7 +213,7 @@ public class ServicioCurso extends Servicio {
         return coleccion;
     }
 
-    public void update_curso(Curso curso) throws GlobalException, NoDataException {
+    public Curso update_curso(Curso curso) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -247,6 +247,7 @@ public class ServicioCurso extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
+        return curso;
     }
 
     public void borrar_curso(int id) throws GlobalException, NoDataException {

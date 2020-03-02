@@ -31,7 +31,7 @@ public class ServicioCarrera extends Servicio {
         super();
     }
     
-    public void insertar_carrera(Carrera carrera) throws GlobalException, NoDataException, SQLException {
+    public Carrera insertar_carrera(Carrera carrera) throws GlobalException, NoDataException, SQLException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -64,6 +64,7 @@ public class ServicioCarrera extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
+        return carrera;
     }
 
     public Collection listar_carrera() throws GlobalException, NoDataException {
@@ -112,7 +113,7 @@ public class ServicioCarrera extends Servicio {
         return coleccion;
     }
 
-    public void update_carrera(Carrera carrera) throws GlobalException, NoDataException {
+    public Carrera update_carrera(Carrera carrera) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -145,6 +146,7 @@ public class ServicioCarrera extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
+        return carrera;
     }
 
     public void borrar_carrera(int id) throws GlobalException, NoDataException {
@@ -181,7 +183,7 @@ public class ServicioCarrera extends Servicio {
         }
     }
 
-    public Carrera buscar_carrera(int id) throws GlobalException, NoDataException {
+    public Collection buscar_carrera(int id) throws GlobalException, NoDataException {
 
         try {
             conectar();
@@ -227,10 +229,10 @@ public class ServicioCarrera extends Servicio {
         if (coleccion.isEmpty()) {
             throw new NoDataException("No hay datos");
         }
-        return carrera;
+        return coleccion;
     }
 
-    public Carrera buscar_carrera_nombre(String nombre) throws GlobalException, NoDataException {
+    public Collection buscar_carrera_nombre(String nombre) throws GlobalException, NoDataException {
 
         try {
             conectar();
@@ -276,6 +278,6 @@ public class ServicioCarrera extends Servicio {
         if (coleccion.isEmpty()) {
             throw new NoDataException("No hay datos");
         }
-        return carrera;
+        return coleccion;
     }
 }
