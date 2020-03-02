@@ -5,6 +5,9 @@
  */
 package com.mobiles.backend.Entidades;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  *
  * @author adria
@@ -14,17 +17,28 @@ public class Carrera {
     private int codigo;
     private String nombre;
     private String titulo;
+    private Collection cursos;
 
+    public Carrera(int codigo, String nombre, String titulo, Collection cursos) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.titulo = titulo;
+        this.cursos = cursos;
+    }
+    
     public Carrera(int codigo, String nombre, String titulo) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.titulo = titulo;
+        this.cursos = new ArrayList();
     }
 
     public Carrera() {
         this.codigo = 0;
         this.nombre = new String();
         this.titulo = new String();
+        this.cursos = new ArrayList() {
+        };
     }
 
     public int getCodigo() {
@@ -49,6 +63,18 @@ public class Carrera {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+    
+    public Collection getCuros(){
+        return this.cursos;
+    }
+    
+    public void setCursos(Collection cursos){
+        this.cursos = cursos;
+    }
+    
+    public void addCurso(Curso curso){
+        this.cursos.add(curso);
     }
 
     @Override
