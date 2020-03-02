@@ -55,7 +55,7 @@ public class Control {
     public Curso insertarCurso(Curso curso) throws GlobalException, NoDataException{
         return this.getServicioCurso().insertar_curso(curso);
     }
-    public Curso actualizarCurso(Curso curso){
+    public Curso actualizarCurso(Curso curso) throws GlobalException, NoDataException{
         return this.getServicioCurso().update_curso(curso);
     }
             
