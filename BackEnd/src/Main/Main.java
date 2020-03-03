@@ -7,10 +7,6 @@ package Main;
 
 import com.mobiles.backend.AccesoADatos.GlobalException;
 import com.mobiles.backend.AccesoADatos.NoDataException;
-import com.mobiles.backend.AccesoADatos.ServicioCarrera;
-import com.mobiles.backend.AccesoADatos.ServicioCurso;
-import com.mobiles.backend.LogicaDeNegocio.Carrera;
-import com.mobiles.backend.LogicaDeNegocio.Curso;
 import com.mobiles.backend.Control.Control;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -28,7 +24,7 @@ public class Main {
 
         control = Control.getInstance();
 
-        control.buscarCursoCodigo(1).forEach((curso) -> {
+        control.listarCursosCarrera(2).forEach((curso)->{
             System.out.println(curso.toString());
         });
 

@@ -47,6 +47,25 @@ CREATE TABLE CARRERACURSOS(
 ALTER TABLE CARRERACURSOS ADD CONSTRAINT FK_COD_CARRERAS FOREIGN  KEY(CODCARRERA) REFERENCES CARRERAS(CODIGO);
 ALTER TABLE CARRERACURSOS ADD CONSTRAINT FK_COD_CURSOS FOREIGN  KEY(CODCURSOS) REFERENCES CURSOS(CODIGO);
 
+
+  CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "LAB"."V_CARRERAS_CURSOS" ("CODCARRERA", "CODCURSOS", "ANO", "CICLO", "CARRERACODIGO", "CARRERANOMBRE", "TITULO", "CURSOCODIGO", "CURSONOMBRE", "CREDITOS", "HORAS") AS 
+  SELECT
+        cc.codcarrera   codcarrera,
+        cc.codcursos    codcursos,
+        cc.ano          ano,
+        cc.ciclo        ciclo,
+        ca.codigo       carreracodigo,
+        ca.nombre       carreranombre,
+        ca.titulo       titulo,
+        cu.codigo       cursocodigo,
+        cu.nombre       cursonombre,
+        cu.creditos     creditos,
+        cu.horas        horas
+    FROM
+        carreracursos   cc
+        FULL OUTER JOIN carreras        ca ON ca.codigo = cc.codcarrera
+        FULL OUTER JOIN cursos          cu ON cu.codigo = cc.codcursos;
+
 --------------------------------------------------------
 --  DDL for Procedure SP_INSERTACARRERA
 --------------------------------------------------------
@@ -258,59 +277,60 @@ CREATE OR REPLACE NONEDITIONABLE FUNCTION listar_cursos RETURN types.ref_cursor 
     cursor_cursos types.ref_cursor;
 BEGIN
     OPEN cursor_cursos FOR SELECT
-                               cu.codigo     codigo,
-                               cu.creditos   creditos,
-                               cu.horas      horas,
-                               cu.nombre     nombre,
-                               cc.ano        anho,
-                               cc.ciclo      ciclo
+                               vcc.cursocodigo   codigo,
+                               vcc.creditos      creditos,
+                               vcc.horas         horas,
+                               vcc.cursonombre   nombre,
+                               vcc.ano           anho,
+                               vcc.ciclo         ciclo
                            FROM
-                               cursos          cu
-                               INNER JOIN carreracursos   cc ON cu.codigo = cc.codcursos;
+                               v_carreras_cursos vcc
+                           WHERE
+                               vcc.cursocodigo <> 0;
 
     RETURN cursor_cursos;
 END;
 /
 -----------------------------------------
-create or replace FUNCTION BUSCAR_CURSO (P_CODIGO IN CURSOS.CODIGO%TYPE)
+CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_curso (
+    p_codigo IN v_carreras_cursos.cursocodigo%TYPE
+) RETURN types.ref_cursor AS
+    cursor_curso types.ref_cursor;
+BEGIN
+    OPEN cursor_curso FOR SELECT
+                              vcc.cursocodigo   codigo,
+                              vcc.creditos      creditos,
+                              vcc.horas         horas,
+                              vcc.cursonombre   nombre,
+                              vcc.ano           anho,
+                              vcc.ciclo         ciclo
+                          FROM
+                              v_carreras_cursos vcc
+                          WHERE
+                              vcc.cursocodigo = p_codigo;
 
-RETURN TYPES.REF_CURSOR
-AS 
-CURSOR_CURSO TYPES.REF_CURSOR; 
-BEGIN 
-OPEN CURSOR_CURSO FOR SELECT
-                               cu.codigo     codigo,
-                               cu.creditos   creditos,
-                               cu.horas      horas,
-                               cu.nombre     nombre,
-                               cc.ano        anho,
-                               cc.ciclo      ciclo
-                           FROM
-                               cursos          cu
-                               LEFT OUTER JOIN carreracursos   cc ON cu.codigo = cc.codcursos WHERE CODIGO = P_CODIGO ; 
-
-RETURN CURSOR_CURSO; 
-
+    RETURN cursor_curso;
 END;
 /
 -----------------------------------------
-create or replace FUNCTION BUSCAR_CURSO_NOMBRE (P_NOMBRE IN CURSOS.NOMBRE%TYPE)
-RETURN TYPES.REF_CURSOR
-AS 
-CURSOR_CURSO_NOMBRE TYPES.REF_CURSOR; 
-BEGIN 
-OPEN CURSOR_CURSO_NOMBRE FOR  SELECT
-                               cu.codigo     codigo,
-                               cu.creditos   creditos,
-                               cu.horas      horas,
-                               cu.nombre     nombre,
-                               cc.ano        anho,
-                               cc.ciclo      ciclo
-                           FROM
-                               cursos          cu
-                               LEFT OUTER JOIN carreracursos   cc ON cu.codigo = cc.codcursos WHERE NOMBRE = P_NOMBRE ; 
+CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_curso_nombre (
+    p_nombre IN v_carreras_cursos.cursonombre%TYPE
+) RETURN types.ref_cursor AS
+    cursor_curso types.ref_cursor;
+BEGIN
+    OPEN cursor_curso FOR SELECT
+                              vcc.cursocodigo   codigo,
+                              vcc.creditos      creditos,
+                              vcc.horas         horas,
+                              vcc.cursonombre   nombre,
+                              vcc.ano           anho,
+                              vcc.ciclo         ciclo
+                          FROM
+                              v_carreras_cursos vcc
+                          WHERE
+                              vcc.cursonombre = p_nombre;
 
-RETURN CURSOR_CURSO_NOMBRE; 
+    RETURN cursor_curso;
 END;
 /
 ---------------------------------------
@@ -363,28 +383,27 @@ BEGIN
     RETURN cursor_carrera_nombre;
 END;
 /
----------------------------------------
--- NO FUNCIONA
----------------------------------------
--- CREATE OR REPLACE FUNCTION BUSCAR_CARRERS_CURSOS (P_CODIGO IN CARRERACURSOS.NOMBRE%TYPE)
--- 
--- RETURN TYPES.REF_CURSOR
--- 
--- AS 
--- 
--- CURSOR_CARRERA_CURSOS TYPES.REF_CURSOR; 
--- 
--- BEGIN 
--- 
--- OPEN CURSOR_CARRERA_CURSOS FOR 
--- 
--- SELECT * FROM CARRERACURSOS WHERE NOMBRE = P_NOMBRE ; 
--- 
--- RETURN CURSOR_CARRERA_CURSOS; 
--- 
--- END;
--- /
---------------------------------------
+
+CREATE OR REPLACE NONEDITIONABLE FUNCTION buscar_carrera_cursos (
+    p_codigo IN v_carreras_cursos.carreracodigo%TYPE
+) RETURN types.ref_cursor AS
+    cursor_carrera_cursos types.ref_cursor;
+BEGIN
+    OPEN cursor_carrera_cursos FOR SELECT
+                                       vcc.cursocodigo   codigo,
+                                       vcc.creditos      creditos,
+                                       vcc.horas         horas,
+                                       vcc.cursonombre   nombre,
+                                       vcc.ano           anho,
+                                       vcc.ciclo         ciclo
+                                   FROM
+                                       v_carreras_cursos vcc
+                                   WHERE
+                                       vcc.carreracodigo = p_codigo;
+
+    RETURN cursor_carrera_cursos;
+END;
+/
 BEGIN
    sp_insertacursos (01,'MOVILES',4,4);
    sp_insertacursos (02,'INTELIGENCIA',4,3);

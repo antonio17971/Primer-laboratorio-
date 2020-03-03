@@ -163,7 +163,7 @@ public class ServicioCurso extends Servicio {
         return coleccion;
     }
 
-    public Collection buscar_curso_nombre(String nombre) throws GlobalException, NoDataException {
+    public Collection buscar_curso(String nombre) throws GlobalException, NoDataException {
 
         try {
             conectar();

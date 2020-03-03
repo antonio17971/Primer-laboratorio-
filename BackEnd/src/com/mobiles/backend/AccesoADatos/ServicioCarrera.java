@@ -27,12 +27,13 @@ public class ServicioCarrera extends Servicio {
     private static final String BUSCAR_CARRERA_CURSOS = "{?=call BUSCAR_CARRERA_CURSOS(?)}";
     private static final String LISTAR_CARRERAS = "{?=call LISTAR_CARRERAS()}";
     private static final String BORRAR_CARRERA = "{call SP_DELETECARRERAS(?)}";
+    private static final String BORRAR_CARRERA_CURSO = "{call SP_DELETECARRERACURSOS(?,?)}";
 
     public ServicioCarrera() {
         super();
     }
 
-    public Carrera insertar_carrera(Carrera carrera) throws GlobalException, NoDataException, SQLException {
+    public Carrera insertar_carrera(Carrera carrera) throws GlobalException, NoDataException {
         try {
             conectar();
         } catch (ClassNotFoundException e) {
@@ -53,7 +54,6 @@ public class ServicioCarrera extends Servicio {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new GlobalException("Llave duplicada");
         } finally {
             try {
@@ -183,7 +183,42 @@ public class ServicioCarrera extends Servicio {
             }
         }
     }
+    
+    public void borrar_carrera_curso(int codCarrera, int codCurso) throws GlobalException, NoDataException{
+        try {
+            conectar();
+        } catch (ClassNotFoundException e) {
+            throw new GlobalException("No se ha localizado el driver");
+        } catch (SQLException e) {
+            throw new NoDataException("La base de datos no se encuentra disponible");
+        }
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conexion.prepareStatement(BORRAR_CARRERA_CURSO);
+            pstmt.setInt(1, codCarrera);
+            pstmt.setInt(1, codCurso);
 
+            int resultado = pstmt.executeUpdate();
+
+            if (resultado == 0) {
+                throw new NoDataException("No se realizo el borrado");
+            } else {
+                System.out.println("\nEliminación Satisfactoria!");
+            }
+        } catch (SQLException e) {
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                desconectar();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+    }
+    
     public Collection buscar_carrera(int id) throws GlobalException, NoDataException {
 
         try {
@@ -211,8 +246,6 @@ public class ServicioCarrera extends Servicio {
                 coleccion.add(carrera);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-
             throw new GlobalException("Sentencia no valida");
         } finally {
             try {
@@ -233,7 +266,7 @@ public class ServicioCarrera extends Servicio {
         return coleccion;
     }
 
-    public Collection buscar_carrera_nombre(String nombre) throws GlobalException, NoDataException {
+    public Collection buscar_carrera(String nombre) throws GlobalException, NoDataException {
 
         try {
             conectar();
@@ -260,8 +293,6 @@ public class ServicioCarrera extends Servicio {
                 coleccion.add(carrera);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-
             throw new GlobalException("Sentencia no valida");
         } finally {
             try {
@@ -331,6 +362,5 @@ public class ServicioCarrera extends Servicio {
             throw new NoDataException("No hay datos");
         }
         return coleccion;
-
     }
 }
