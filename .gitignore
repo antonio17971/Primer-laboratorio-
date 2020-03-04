@@ -24,3 +24,6 @@ hs_err_pid*
 /BackEnd/nbproject/private/
 /BackEnd/build/
 /BackEnd/dist/
+/ServerWeb/nbproject/private/
+/ServerWeb/build/
+/ServerWeb/dist/
