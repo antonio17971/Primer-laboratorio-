@@ -5,6 +5,9 @@
  */
 package Cursos;
 
+import com.google.gson.Gson;
+import com.mobiles.backend.Control.Control;
+import com.mobiles.backend.Entidades.Curso;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,6 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "insertarCurso", urlPatterns = {"/insertarCurso"})
 public class insertarCurso extends HttpServlet {
 
+    private Control control = new Control();
+    private String cursoJsonString;
+    Curso curso;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,17 +38,26 @@ public class insertarCurso extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet insertarCurso</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet insertarCurso at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+       response.setContentType("application/json;charset=UTF-8");
+        Gson gson = new Gson();
+        PrintWriter out = response.getWriter();
+        String nombre = (String) request.getParameter("nombre");
+        int id =  Integer.parseInt(request.getParameter("ID"));
+        int creditos =  Integer.parseInt(request.getParameter("creditos"));
+        int horas =  Integer.parseInt(request.getParameter("horas"));
+        curso.setCodigo(id);
+        curso.setNombre(nombre);
+        curso.setCreditos(creditos);
+        curso.setHoras(horas);
+        cursoJsonString = gson.toJson(curso);
+        try {
+            control.actualizarCurso(curso);
+        } catch (Exception e) {
+        }
+         try {
+            out.println(cursoJsonString);
+        } finally {
+            out.close();
         }
     }
 

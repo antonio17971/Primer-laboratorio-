@@ -7,6 +7,7 @@ package Cursos;
 
 import com.google.gson.Gson;
 import com.mobiles.backend.Control.Control;
+import com.mobiles.backend.Entidades.Curso;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class actualizarCurso extends HttpServlet {
 
     private Control control = new Control();
     private String cursoJsonString;
-    Collection curso;
+    Curso curso;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,6 +41,24 @@ public class actualizarCurso extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
+        String nombre = (String) request.getParameter("nombre");
+        int id =  Integer.parseInt(request.getParameter("ID"));
+        int creditos =  Integer.parseInt(request.getParameter("creditos"));
+        int horas =  Integer.parseInt(request.getParameter("horas"));
+        curso.setCodigo(id);
+        curso.setNombre(nombre);
+        curso.setCreditos(creditos);
+        curso.setHoras(horas);
+        cursoJsonString = gson.toJson(curso);
+        try {
+            control.actualizarCurso(curso);
+        } catch (Exception e) {
+        }
+         try {
+            out.println(cursoJsonString);
+        } finally {
+            out.close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
