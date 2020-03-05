@@ -7,8 +7,10 @@ package Cursos;
 
 import com.google.gson.Gson;
 import com.mobiles.backend.Control.Control;
+import com.mobiles.backend.Entidades.Carrera;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,7 +44,22 @@ public class buscarCurso extends HttpServlet {
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
         String nombre = (String) request.getParameter("nombre");
-        String id = (String) request.getParameter("ID");
+        int id = 0;
+        id = Integer.parseInt(request.getParameter("ID"));
+        
+        if(!(nombre==null)){
+            try {
+                 cursos = control.buscarCarrera(nombre);
+            } catch (Exception e) {
+                cursos =  new ArrayList<Carrera>();
+            }
+        }else if(!(id==0)){
+            try {
+                 cursos = control.buscarCarrera(id);
+            } catch (Exception e) {
+                cursos =  new ArrayList<Carrera>();
+            }
+        }
         
         cursosJsonString = gson.toJson(cursos);
         try {

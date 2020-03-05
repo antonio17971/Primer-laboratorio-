@@ -43,11 +43,20 @@ public class actualizarCarrera extends HttpServlet {
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
         String nombre = (String) request.getParameter("nombre");
-        String id = (String) request.getParameter("ID");
-        
+        int id =  Integer.parseInt(request.getParameter("ID"));
+        String titulo = (String) request.getParameter("titulo");
+        carrera.setCodigo(id);
+        carrera.setNombre(nombre);
+        carrera.setTitulo(titulo);
+        carreraJsonString = gson.toJson(carrera);
         try {
-            control.actualizarCarrera(carrera)
+            control.actualizarCarrera(carrera);
         } catch (Exception e) {
+        }
+         try {
+            out.println(carreraJsonString);
+        } finally {
+            out.close();
         }
     }
 

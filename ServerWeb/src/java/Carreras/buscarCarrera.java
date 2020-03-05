@@ -7,8 +7,10 @@ package Carreras;
 
 import com.google.gson.Gson;
 import com.mobiles.backend.Control.Control;
+import com.mobiles.backend.Entidades.Carrera;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,7 +43,21 @@ public class buscarCarrera extends HttpServlet {
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
         String nombre = (String) request.getParameter("nombre");
-        String id = (String) request.getParameter("ID");
+        int id = Integer.parseInt(request.getParameter("ID"));
+        
+        if(!(nombre==null)){
+            try {
+                 carreras = control.buscarCarrera(nombre);
+            } catch (Exception e) {
+                carreras =  new ArrayList<Carrera>();
+            }
+        }else if(!(id==0)){
+            try {
+                 carreras = control.buscarCarrera(id);
+            } catch (Exception e) {
+                carreras =  new ArrayList<Carrera>();
+            }
+        }
         
         carrerasJsonString = gson.toJson(carreras);
         try {
