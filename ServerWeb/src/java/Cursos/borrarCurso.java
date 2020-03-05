@@ -41,6 +41,16 @@ public class borrarCurso extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
+         int id = Integer.parseInt(request.getParameter("ID"));
+        try {
+            control.borrarCurso(id);
+        } catch (Exception e) {
+        }
+         try {
+            out.println("Borrado: "+ id);
+        } finally {
+            out.close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,6 +78,19 @@ public class borrarCurso extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+    /**
+     * Handles the HTTP <code>DELETE</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }

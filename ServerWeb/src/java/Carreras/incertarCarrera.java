@@ -3,15 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servicios;
+package Carreras;
 
-import com.google.gson.Gson;
-import com.mobiles.backend.Control.Control;
-import com.mobiles.backend.Entidades.Curso;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,12 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jose1
  */
-@WebServlet(name = "ServicioCurso", urlPatterns = {"/ServicioCurso"})
-public class ServicioCurso extends HttpServlet {
+@WebServlet(name = "incertarCarrera", urlPatterns = {"/incertarCarrera"})
+public class incertarCarrera extends HttpServlet {
 
-    private Control control = new Control();
-    private String cursosJsonString;
-    Collection cursos;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,25 +32,17 @@ public class ServicioCurso extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-    }
-    
-    protected void listarCursos(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("application/json;charset=UTF-8");
-        Gson gson = new Gson();
-        PrintWriter out = response.getWriter();
-        try {
-            cursos =  control.listarCursos();
-        } catch (Exception ex) {
-            cursos =  new ArrayList<Curso>();
-             // Logger.getLogger(ServiceAlumno.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        cursosJsonString = gson.toJson(cursos);
-        try {
-            out.println(cursosJsonString);
-        } finally {
-            out.close();
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet incertarCarrera</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet incertarCarrera at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -74,7 +58,7 @@ public class ServicioCurso extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        listarCursos(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -89,31 +73,6 @@ public class ServicioCurso extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
-    /**
-     * Handles the HTTP <code>DELETE</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-    }
-    /**
-     * Handles the HTTP <code>PUT</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-        
     }
 
     /**

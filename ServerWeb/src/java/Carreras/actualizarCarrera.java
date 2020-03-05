@@ -7,6 +7,7 @@ package Carreras;
 
 import com.google.gson.Gson;
 import com.mobiles.backend.Control.Control;
+import com.mobiles.backend.Entidades.Carrera;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -26,7 +27,7 @@ public class actualizarCarrera extends HttpServlet {
     
     private Control control = new Control();
     private String carreraJsonString;
-    Collection carrera;
+    Carrera carrera;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,6 +42,13 @@ public class actualizarCarrera extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
+        String nombre = (String) request.getParameter("nombre");
+        String id = (String) request.getParameter("ID");
+        
+        try {
+            control.actualizarCarrera(carrera)
+        } catch (Exception e) {
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,6 +80,19 @@ public class actualizarCarrera extends HttpServlet {
         processRequest(request, response);
     }
 
+    /**
+     * Handles the HTTP <code>PUT</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
     /**
      * Returns a short description of the servlet.
      *

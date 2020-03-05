@@ -45,7 +45,7 @@ public class buscarCarrera extends HttpServlet {
         
         carrerasJsonString = gson.toJson(carreras);
         try {
-        out.println(carrerasJsonString);
+            out.println(carrerasJsonString);
         } finally {
             out.close();
         }
