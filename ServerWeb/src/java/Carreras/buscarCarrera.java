@@ -43,7 +43,8 @@ public class buscarCarrera extends HttpServlet {
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
         String nombre = (String) request.getParameter("nombre");
-        int id = Integer.parseInt(request.getParameter("ID"));
+        int id = 0;
+        id = Integer.parseInt(request.getParameter("ID"));
         
         if(!(nombre==null)){
             try {
