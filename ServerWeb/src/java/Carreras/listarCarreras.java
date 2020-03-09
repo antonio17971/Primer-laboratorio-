@@ -44,7 +44,7 @@ public class listarCarreras extends HttpServlet {
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
         try {
-                carreras =  control.liscarCarreras();
+                carreras =  control.listarCarreras();
             } catch (Exception ex) {
                 carreras =  new ArrayList<Carrera>();
                // Logger.getLogger(ServiceAlumno.class.getName()).log(Level.SEVERE, null, ex);

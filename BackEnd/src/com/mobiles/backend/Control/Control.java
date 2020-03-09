@@ -74,7 +74,7 @@ public class Control {
     //****************************************************
     // INICIO BLOQUE PARA CONTROL DE CARRERAS
     //****************************************************
-    public Collection liscarCarreras() throws GlobalException, NoDataException {
+    public Collection listarCarreras() throws GlobalException, NoDataException {
         return this.getServicioCarrera().listar_carrera();
     }
 
