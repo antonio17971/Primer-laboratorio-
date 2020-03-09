@@ -15,7 +15,7 @@ public class Control {
     private final ServicioCarrera servicioCarrera;
     private final ServicioCurso servicioCurso;
 
-    private Control() {
+    public Control() {
         this.servicioCarrera = new ServicioCarrera();
         this.servicioCurso = new ServicioCurso();
     }
@@ -74,7 +74,7 @@ public class Control {
     //****************************************************
     // INICIO BLOQUE PARA CONTROL DE CARRERAS
     //****************************************************
-    public Collection liscarCarreras() throws GlobalException, NoDataException {
+    public Collection listarCarreras() throws GlobalException, NoDataException {
         return this.getServicioCarrera().listar_carrera();
     }
 
