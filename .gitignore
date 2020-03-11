@@ -28,3 +28,5 @@ hs_err_pid*
 /ServerWeb/nbproject/private/
 /ServerWeb/build/
 /ServerWeb/dist/
+/FrontEndDesktop/build/
+/FrontEndDesktop/dist/
