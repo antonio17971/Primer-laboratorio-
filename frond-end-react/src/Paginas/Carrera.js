@@ -8,8 +8,7 @@ class Carreras extends React.Component{
             <React.Fragment>
                 <div class="container">
                     <p></p>
-                    <Tabla top={["Nombre","ID","Titulo"]}/>
-                    <p>Carreras</p>
+                    <Tabla top={["Fila","ID","Nombre","Titulo","Cursos", "Opciones"] } URL='http://localhost:8080/ServerWeb/listarCarreras'/>
                 </div>
             </React.Fragment>
         )

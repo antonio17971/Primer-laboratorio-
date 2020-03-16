@@ -8,8 +8,7 @@ class Cursos extends React.Component{
             <React.Fragment>
                 <div class="container">
                     <p></p>
-                    <Tabla top={["Nombre","ID","Creditos", "Horas"]}/>
-                    <p>Cursos</p>
+                    <Tabla top={["Filas","ID","Creditos", "Horas","Nombre", "Anno","Ciclo","Opciones"]} URL='http://localhost:8080/ServerWeb/listarCursos' />
                 </div>
             </React.Fragment>
         )
