@@ -1,73 +1,90 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Modelo;
 
+import com.mobiles.backend.Entidades.Carrera;
 import com.mobiles.backend.Entidades.Curso;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Observer;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 
-public class CursoModel extends java.util.Observable {
-
-    private CursosTableModel cursos;
-    private String mensaje;
-    private Curso filter;
-    private HashMap<String, String> errores;
-
-    public CursoModel() {
+/**
+ *
+ * @author Usuario1
+ */
+public class CursoModel extends java.util.Observable{
+    Curso current;
+    ComboBoxModel<Carrera> carreras;
+    HashMap<String,String> errores;
+    String mensaje;
+    int modo;
+    
+    public void init(){
+        Carrera[] rows = new Carrera[0] ;
+        setCarreras(rows);
+        setCurrent(new Curso());
+        clearErrors();
     }
 
-    private void changed() {
-        this.setChanged();
-        this.notifyObservers();
+    public int getModo() {
+        return modo;
     }
 
-    public void setCursos(List<Curso> cursos) {
-        int[] cols = {
-            CursosTableModel.CODIGO,
-            CursosTableModel.NOMBRE,
-            CursosTableModel.CREDITOS,
-            CursosTableModel.HORAS
-        };
-        this.cursos = new CursosTableModel(cols, cursos);
-        this.changed();
+    public void setModo(int modo) {
+        this.modo = modo;
     }
-
-    public CursosTableModel getCursos() {
-        return this.cursos;
-    }
-
-    public void setFilter(Curso filter) {
-        this.filter = filter;
-    }
-
-    public Curso getFilter() {
-        return this.filter;
+    
+    public String getMensaje() {
+        return mensaje;
     }
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
 
-    public String getMensaje() {
-        return this.mensaje;
+    public HashMap<String, String> getErrores() {
+        return errores;
     }
 
     public void setErrores(HashMap<String, String> errores) {
         this.errores = errores;
     }
-
-    public HashMap<String, String> getErrores() {
-        return this.errores;
+    
+    public void clearErrors(){
+        setErrores(new HashMap<String,String>());
+        setMensaje("");
+        
+    }
+    public Curso getCurrent() {
+        return current;
     }
 
-    public void clearErrores() {
-        this.setErrores(new HashMap<>());
-        this.setMensaje("");
+    public void setCurrent(Curso current) {
+        this.current = current;
+        setChanged();
+        notifyObservers();        
+    }
+
+    public ComboBoxModel<Carrera> getCarreras() {
+        return carreras;
+    }
+
+    public void setCarreras(Carrera[] carreras) {
+        this.carreras = new DefaultComboBoxModel(carreras);
+        setChanged();
+        notifyObservers();        
     }
 
     @Override
-    public void addObserver(Observer observer) {
-        super.addObserver(observer);
-        this.changed();
+    public void addObserver(java.util.Observer o) {
+        super.addObserver(o);
+        setChanged();
+        notifyObservers();
     }
-
+    
 }
