@@ -1,6 +1,6 @@
 package com.mobile.frontend.data;
 
-import com.mobile.frontend.data.model.LoggedInUser;
+import com.mobile.frontend.data.model.UserModel;
 
 import java.io.IOException;
 
@@ -9,15 +9,16 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public Result<UserModel> login(String username, String password) {
 
         try {
             // TODO: handle loggedInUser authentication
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
-            return new Result.Success<>(fakeUser);
+//            UserModel fakeUser =
+//                    new UserModel(
+//                            java.util.UUID.randomUUID().toString(),
+//                            "Jane Doe");
+//            return new Result.Success<UserModel>(fakeUser);
+            return  new Result.Success<UserModel>(new UserModel());
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
         }

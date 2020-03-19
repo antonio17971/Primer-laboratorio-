@@ -23,12 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobile.frontend.R;
+import com.mobile.frontend.data.model.Model;
 import com.mobile.frontend.ui.login.LoginViewModel;
 import com.mobile.frontend.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private Model model;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,12 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
+        this.model = new Model();
+    }
+
+    public Model getModel(){
+        return this.model;
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
