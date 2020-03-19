@@ -8,6 +8,7 @@ import android.util.Patterns;
 
 import com.mobile.frontend.data.LoginRepository;
 import com.mobile.frontend.data.Result;
+import com.mobile.frontend.data.model.Model;
 import com.mobile.frontend.data.model.UserModel;
 import com.mobile.frontend.R;
 
@@ -29,9 +30,9 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(String username, String password) {
+    public void login(String username, String password, Model model) {
         // can be launched in a separate asynchronous job
-        Result<UserModel> result = loginRepository.login(username, password);
+        Result<UserModel> result = loginRepository.login(username, password, model);
 
         if (result instanceof Result.Success) {
             UserModel data = ((Result.Success<UserModel>) result).getData();

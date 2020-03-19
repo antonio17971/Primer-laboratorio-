@@ -1,5 +1,6 @@
 package com.mobile.frontend.data;
 
+import com.mobile.frontend.data.model.Model;
 import com.mobile.frontend.data.model.UserModel;
 
 /**
@@ -43,9 +44,9 @@ public class LoginRepository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public Result<UserModel> login(String username, String password) {
+    public Result<UserModel> login(String username, String password, Model model) {
         // handle login
-        Result<UserModel> result = dataSource.login(username, password);
+        Result<UserModel> result = dataSource.login(username, password, model);
         if (result instanceof Result.Success) {
             setLoggedInUser(((Result.Success<UserModel>) result).getData());
         }
