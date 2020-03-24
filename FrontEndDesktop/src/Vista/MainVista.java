@@ -5,41 +5,21 @@
  */
 package Vista;
 
-import Controlador.CursoControlador;
-import Modelo.CursoModel;
-import java.util.Observable;
-import java.util.Observer;
+import Main.Main;
 
 /**
  *
  * @author adria
  */
-public class MainVista extends javax.swing.JFrame implements Observer{
+public class MainVista extends javax.swing.JFrame {
 
     /**
-     * Creates new form NewJFrame
+     * Creates new form MainVista
      */
-    private CursoControlador controller;
-    private CursoModel model;
-    
-    public MainVista() {
+    public MainVista(CarrerasVista carrerasVista, CursosVista cursosVista) {
         initComponents();
-    }
-    
-    public void setController(CursoControlador controller){
-        this.controller = controller;
-    }
-    
-    public void setModel(CursoModel model){
-        this.model = model;
-    }
-    
-    public CursoControlador getController(){
-        return this.controller;
-    }
-    
-    public CursoModel getModel(){
-        return this.model;
+        this.desktopPane.add(carrerasVista);
+        this.desktopPane.add(cursosVista);
     }
 
     /**
@@ -51,43 +31,63 @@ public class MainVista extends javax.swing.JFrame implements Observer{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        JScrollPanel = new javax.swing.JScrollPane();
-        CursosTable = new javax.swing.JTable();
+        desktopPane = new javax.swing.JDesktopPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        carrerasBtn = new javax.swing.JMenu();
+        cursosBtn = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        CursosTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
+        desktopPane.setLayout(desktopPaneLayout);
+        desktopPaneLayout.setHorizontalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1011, Short.MAX_VALUE)
+        );
+        desktopPaneLayout.setVerticalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 673, Short.MAX_VALUE)
+        );
+
+        carrerasBtn.setText("Carreras");
+        carrerasBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                carrerasBtnMouseClicked(evt);
             }
-        ));
-        JScrollPanel.setViewportView(CursosTable);
+        });
+        jMenuBar1.add(carrerasBtn);
+
+        cursosBtn.setText("Cursos");
+        cursosBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cursosBtnMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(cursosBtn);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(215, 215, 215)
-                .addComponent(JScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(316, Short.MAX_VALUE))
+            .addComponent(desktopPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addComponent(JScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(189, Short.MAX_VALUE))
+            .addComponent(desktopPane)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void carrerasBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carrerasBtnMouseClicked
+        Main.getCarrerasVista().setVisible(true);
+    }//GEN-LAST:event_carrerasBtnMouseClicked
+
+    private void cursosBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cursosBtnMouseClicked
+        Main.getCursosVista().setVisible(true);
+    }//GEN-LAST:event_cursosBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -115,23 +115,19 @@ public class MainVista extends javax.swing.JFrame implements Observer{
             java.util.logging.Logger.getLogger(MainVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainVista().setVisible(true);
+                new MainVista(new CarrerasVista(), new CursosVista()).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable CursosTable;
-    private javax.swing.JScrollPane JScrollPanel;
+    private javax.swing.JMenu carrerasBtn;
+    private javax.swing.JMenu cursosBtn;
+    private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void update(Observable o, Object arg) {
-        this.CursosTable.setModel(model.getCursos());
-    }
 }
