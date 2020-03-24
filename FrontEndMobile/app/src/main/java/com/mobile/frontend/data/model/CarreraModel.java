@@ -1,11 +1,9 @@
 package com.mobile.frontend.data.model;
 
-import android.annotation.SuppressLint;
-
-import java.io.CharArrayReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public final class CarreraModel {
+public final class CarreraModel implements Serializable {
 
     private int codigo;
     private String nombre;
@@ -74,7 +72,6 @@ public final class CarreraModel {
         return this;
     }
 
-    @SuppressLint("DefaultLocale")
     @Override
     public String toString() {
         return String.format("Carrera{codigo=%d, nombre=%s, titulo=%s}",

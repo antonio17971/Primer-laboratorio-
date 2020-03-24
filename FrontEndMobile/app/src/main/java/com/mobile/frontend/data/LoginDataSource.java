@@ -17,6 +17,7 @@ public class LoginDataSource {
             ArrayList<UserModel> users = model.getUsers();
             for (UserModel user : users) {
                 if (user.getEmail().equals(username) && user.getPassword().equals(password)) {
+                    model.setLoggedUser(user);
                     return new Result.Success<UserModel>(user);
                 }
             }

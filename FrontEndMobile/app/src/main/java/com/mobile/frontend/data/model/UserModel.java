@@ -1,10 +1,12 @@
 package com.mobile.frontend.data.model;
 
+import java.io.Serializable;
+
 /**
  * Data class that captures user information for logged in users retrieved from
  * LoginRepository
  */
-public class UserModel {
+public class UserModel implements Serializable {
 
     private String userId;
     private String displayName;

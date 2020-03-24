@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.mobile.frontend.R;
 import com.mobile.frontend.data.model.Model;
 import com.mobile.frontend.ui.login.LoginViewModel;
 import com.mobile.frontend.ui.login.LoginViewModelFactory;
+import com.mobile.frontend.nav_drawer;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -120,6 +122,11 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString(), getModel());
+                if (getModel().getLoggedUser() != null){
+                    Intent intent = new Intent(LoginActivity.this, nav_drawer.class);
+                    intent.putExtra("model", model);
+                    LoginActivity.this.startActivity(intent);
+                }
             }
         });
 

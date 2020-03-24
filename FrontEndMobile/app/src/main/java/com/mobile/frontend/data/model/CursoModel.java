@@ -1,8 +1,8 @@
 package com.mobile.frontend.data.model;
 
-import android.annotation.SuppressLint;
+import java.io.Serializable;
 
-public final class CursoModel {
+public final class CursoModel implements Serializable {
 
     // Atributos privados de la clase Curso
     private int codigo;
@@ -94,7 +94,6 @@ public final class CursoModel {
         return this;
     }
 
-    @SuppressLint("DefaultLocale")
     @Override
     public String toString() {
         return String.format("Curso{codigo=%d, creditos=%d, horas=%d, nombre=%s, año=%s, ciclo=%s}",

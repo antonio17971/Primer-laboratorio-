@@ -1,11 +1,9 @@
 package com.mobile.frontend.data.model;
 
-import android.widget.ArrayAdapter;
-
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
-public final class Model {
+public final class Model implements Serializable {
 
     private UserModel loggedUser;
     private ArrayList<UserModel> users;
@@ -27,6 +25,11 @@ public final class Model {
     }
 
     public UserModel getLoggedUser(){
+        return this.loggedUser;
+    }
+
+    public UserModel setLoggedUser(UserModel loggedUser){
+        this.loggedUser = loggedUser;
         return this.loggedUser;
     }
 
