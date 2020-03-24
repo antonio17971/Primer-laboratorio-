@@ -8,7 +8,9 @@ class Cursos extends React.Component{
             <React.Fragment>
                 <div class="container">
                     <p></p>
-                    <Tabla top={["Filas","ID","Creditos", "Horas","Nombre", "Anno","Ciclo","Opciones"]} URL='http://localhost:8080/ServerWeb/listarCursos' />
+                    <Tabla top={["Filas","ID","Creditos", "Horas","Nombre", "Anno","Ciclo","Opciones"]} URL='http://localhost:8080/ServerWeb/listarCursos' 
+                    form = '/cursos/form' delete = 'http://localhost:8080/ServerWeb/borrarCurso'
+                    actualizar = '/cursos/actualizar'/>
                 </div>
             </React.Fragment>
         )

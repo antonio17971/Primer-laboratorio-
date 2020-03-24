@@ -25,7 +25,7 @@ public class insertarCurso extends HttpServlet {
 
     private Control control = new Control();
     private String cursoJsonString;
-    Curso curso;
+    Curso curso = new Curso();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,7 +51,7 @@ public class insertarCurso extends HttpServlet {
         curso.setHoras(horas);
         cursoJsonString = gson.toJson(curso);
         try {
-            control.actualizarCurso(curso);
+            control.insertarCurso(curso);
         } catch (Exception e) {
         }
          try {

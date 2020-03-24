@@ -25,7 +25,7 @@ public class incertarCarrera extends HttpServlet {
 
     private Control control = new Control();
     private String carreraJsonString;
-    Carrera carrera;
+    Carrera carrera = new Carrera();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,7 +48,7 @@ public class incertarCarrera extends HttpServlet {
         carrera.setTitulo(titulo);
         carreraJsonString = gson.toJson(carrera);
         try {
-            control.actualizarCarrera(carrera);
+            control.insertarCarrera(carrera);
         } catch (Exception e) {
         }
          try {
