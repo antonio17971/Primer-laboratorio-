@@ -45,7 +45,7 @@ class FormCarreras extends React.Component {
             <div className='container'>
                 <form action="http://localhost:8080/ServerWeb/incertarCarrera" method="POST">
                 <div class="form-group">
-                    <h1>Crear o actualizar Cursos</h1>
+                    <h1>Crear o actualizar Carreras</h1>
                 </div>
                 <div class="form-group row">
                     <label for="id">ID</label>

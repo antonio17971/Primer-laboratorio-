@@ -39,7 +39,7 @@ public class Cursos extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tabla = new javax.swing.JTable();
         idTXT = new javax.swing.JTextField();
         nombreTXT = new javax.swing.JTextField();
         creditosTXT = new javax.swing.JTextField();
@@ -52,10 +52,11 @@ public class Cursos extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         actualizar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -66,9 +67,14 @@ public class Cursos extends javax.swing.JFrame {
                 "ID", "Nombre", "Creditos", "Horas", "Anno", "Ciclo"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Tabla);
 
         jButton1.setText("Actualizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Crear");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -93,6 +99,18 @@ public class Cursos extends javax.swing.JFrame {
         });
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Rellenar campos");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,6 +153,10 @@ public class Cursos extends javax.swing.JFrame {
                                 .addGap(65, 65, 65)))
                         .addComponent(horasTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,7 +185,9 @@ public class Cursos extends javax.swing.JFrame {
                         .addComponent(actualizar)
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(58, 58, 58)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -209,7 +233,7 @@ public class Cursos extends javax.swing.JFrame {
         Control control = Control.getInstance();
         tabla = new DefaultTableModel();
         
-        jTable1.setModel(tabla);
+        Tabla.setModel(tabla);
         tabla.addColumn("ID");
         tabla.addColumn("Creditos");
         tabla.addColumn("Horas");
@@ -245,10 +269,105 @@ public class Cursos extends javax.swing.JFrame {
             
             
         }
+           
+         
+    }
+    public int retornarPrimerCampo() {
+        // Obtenemos el primer dato del renglon seleccionado
+        String codigo = "Seleccione un tableSpace";
+        int val =0;
+        if (Tabla.getSelectedRow() != -1) {
+            System.out.println(Tabla.getSelectedRow());
+            val =  (int) Tabla.getValueAt(Tabla.getSelectedRow(), 0);
+
+            // Lo imprimimos en pantalla
+            System.out.println(val);
+            return val;
+        } else {
+            System.out.println("Seleccione un renglon primero");
+            return val;
+        }
         
        
         
     }//GEN-LAST:event_actualizarActionPerformed
+
+    public Curso rellenar(){
+        
+        // Obtenemos el primer dato del renglon seleccionado
+        String codigo = "Seleccione un tableSpace";
+        int id =0;
+        String Nombre = "";
+        int creditos = 0;
+        int horas = 0;
+        Curso curso = new Curso();
+        if (Tabla.getSelectedRow() != -1) {
+            System.out.println(Tabla.getSelectedRow());
+            id =  (int) Tabla.getValueAt(Tabla.getSelectedRow(), 0);
+            Nombre = (String) Tabla.getValueAt(Tabla.getSelectedRow(), 1);
+            creditos = (int) Tabla.getValueAt(Tabla.getSelectedRow(), 2);
+            horas = (int) Tabla.getValueAt(Tabla.getSelectedRow(), 3);
+            curso.setHoras(horas);
+            curso.setCreditos(creditos);
+            curso.setNombre(Nombre);
+            curso.setCodigo(id);
+            
+            // Lo imprimimos en pantalla
+            System.out.println(curso.toString());
+            return curso;
+        } else {
+            System.out.println("Seleccione un renglon primero");
+            return curso;
+        }
+        
+       
+        
+    }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        Control contro = new Control();
+         System.out.println(retornarPrimerCampo());
+        try {
+            contro.borrarCurso(retornarPrimerCampo());
+            //String sql = "ALTER DATABASE DATAFILE 'C:/Oracle18c/oradata/XE/" + retornarPrimerCampo()+".DBF' RESIZE "+resizeTXT.getText()+"M";
+        } catch (GlobalException ex) {
+            Logger.getLogger(Cursos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(Cursos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+      
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        Curso curso = rellenar();
+        
+        idTXT.setText(curso.getCodigo()+"");
+        nombreTXT.setText(curso.getNombre());
+        creditosTXT.setText(curso.getCodigo()+"");
+        horasTXT.setText(curso.getHoras()+"");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Control control = Control.getInstance();
+        Curso curso = new Curso();
+        curso.setCodigo(Integer.parseInt(idTXT.getText()));
+        curso.setCreditos(Integer.parseInt(horasTXT.getText()));
+        curso.setNombre(nombreTXT.getText());
+        curso.setHoras(Integer.parseInt(horasTXT.getText()));
+        try {
+            control.actualizarCurso(curso);
+        } catch (GlobalException ex) {
+            Logger.getLogger(Cursos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(Cursos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,6 +405,7 @@ public class Cursos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Tabla;
     private javax.swing.JButton actualizar;
     private javax.swing.JTextField creditosTXT;
     private javax.swing.JTextField horasTXT;
@@ -293,12 +413,16 @@ public class Cursos extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField nombreTXT;
     // End of variables declaration//GEN-END:variables
+
+    private Curso Curso() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

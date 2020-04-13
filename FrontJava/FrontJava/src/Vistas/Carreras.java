@@ -48,6 +48,7 @@ public class Carreras extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,6 +79,11 @@ public class Carreras extends javax.swing.JFrame {
         });
 
         jButton2.setText("Actualizar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nombre");
 
@@ -86,11 +92,23 @@ public class Carreras extends javax.swing.JFrame {
         jLabel3.setText("Titulo ");
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Actualizar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Rellenar espacios");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -122,10 +140,16 @@ public class Carreras extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(idTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nombreTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tituloTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(762, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nombreTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tituloTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(762, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(idTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton5)
+                                .addGap(97, 97, 97))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,7 +168,9 @@ public class Carreras extends javax.swing.JFrame {
                                             .addComponent(jLabel1)
                                             .addComponent(nombreTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(idTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(idTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton5)))
                                     .addComponent(jLabel2))
                                 .addGap(18, 18, 18)
                                 .addComponent(tituloTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -234,6 +260,99 @@ public class Carreras extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+     public int retornarPrimerCampo() {
+        // Obtenemos el primer dato del renglon seleccionado
+        String codigo = "Seleccione un tableSpace";
+        int val =0;
+        if (jTable1.getSelectedRow() != -1) {
+            System.out.println(jTable1.getSelectedRow());
+            val =  (int) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+
+            // Lo imprimimos en pantalla
+            System.out.println(val);
+            return val;
+        } else {
+            System.out.println("Seleccione un renglon primero");
+            return val;
+        }
+        
+       
+        
+    }
+     
+     
+         public Carrera rellenar(){
+        
+        // Obtenemos el primer dato del renglon seleccionado
+        String codigo = "Seleccione un tableSpace";
+        int id =0;
+        String Nombre = "";
+        String titulo = "";
+        Carrera carrera = new Carrera();
+        if (jTable1.getSelectedRow() != -1) {
+            System.out.println(jTable1.getSelectedRow());
+            id =  (int) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+            Nombre = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1);
+            titulo = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 2);
+            // Lo imprimimos en pantalla
+            carrera.setCodigo(id);
+            carrera.setNombre(Nombre);
+            carrera.setTitulo(titulo);
+            System.out.println(carrera.toString());
+            return carrera;
+        } else {
+            System.out.println("Seleccione un renglon primero");
+            return carrera;
+        }
+        
+       
+        
+    }
+    
+    
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        Control control = new Control();
+        
+        try {
+            control.borrarCarrera(retornarPrimerCampo());
+        } catch (GlobalException ex) {
+            Logger.getLogger(Carreras.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(Carreras.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        Carrera carrera = rellenar();
+        
+        idTXT.setText(carrera.getCodigo()+"");
+        nombreTXT.setText(carrera.getNombre());
+        tituloTXT.setText(carrera.getTitulo());
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        Carrera carrera  = new Carrera();
+        Control control = Control.getInstance();
+        
+        carrera.setCodigo(Integer.parseInt(idTXT.getText()));
+        carrera.setNombre(nombreTXT.getText());
+        carrera.setTitulo(tituloTXT.getText());
+        
+        try {
+            control.actualizarCarrera(carrera);
+        } catch (GlobalException ex) {
+            Logger.getLogger(Carreras.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(Carreras.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -275,6 +394,7 @@ public class Carreras extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
