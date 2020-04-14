@@ -9,7 +9,6 @@ import Nav from './Componentes/Nav'
 import App from './App'
 
 
-
 ReactDOM.render(<Nav />, document.getElementById('top'));
 ReactDOM.render(<App />, document.getElementById('body'));
 

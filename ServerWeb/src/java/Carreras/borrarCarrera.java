@@ -41,7 +41,7 @@ public class borrarCarrera extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
-         int id = Integer.parseInt(request.getParameter("ID"));
+             int id = Integer.parseInt(request.getParameter("ID"));
         try {
             control.borrarCarrera(id);
         } catch (Exception e) {

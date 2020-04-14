@@ -30,3 +30,5 @@ hs_err_pid*
 /ServerWeb/dist/
 /FrontEndDesktop/build/
 /FrontEndDesktop/dist/
+/FrontJava/FrontJava/nbproject/private/
+/FrontJava/FrontJava/build/
