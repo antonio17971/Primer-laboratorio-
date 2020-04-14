@@ -8,6 +8,7 @@ package Cursos;
 import com.google.gson.Gson;
 import com.mobiles.backend.Control.Control;
 import com.mobiles.backend.Entidades.Carrera;
+import com.mobiles.backend.Entidades.Curso;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -49,15 +50,15 @@ public class buscarCurso extends HttpServlet {
         
         if(!(nombre==null)){
             try {
-                 cursos = control.buscarCarrera(nombre);
+                 cursos = control.buscarCurso(nombre);
             } catch (Exception e) {
-                cursos =  new ArrayList<Carrera>();
+                cursos =  new ArrayList<Curso>();
             }
         }else if(!(id==0)){
             try {
-                 cursos = control.buscarCarrera(id);
+                 cursos = control.buscarCurso(id);
             } catch (Exception e) {
-                cursos =  new ArrayList<Carrera>();
+                cursos =  new ArrayList<Curso>();
             }
         }
         

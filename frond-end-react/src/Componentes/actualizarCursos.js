@@ -21,7 +21,7 @@ class actualizarCursos extends React.Component {
         this.state.data = datos
     }
     fetchData = (URL, options = {}) => {
-        var props = this.props.URL
+        var props = 'http://localhost:8080/ServerWeb/buscarCurso?ID='+this.getParams(window.location.href).ID
         var config = {
             headers: { 'Access-Control-Allow-Origin': "*" },
             proxy: {
@@ -33,13 +33,38 @@ class actualizarCursos extends React.Component {
         axios.get(props, config).then(res => {
             const datos = res.data;
             this.state.data = datos;
-            //console.log(this.state.data)
+            console.log(this.state.data)
             this.setState({ datos });
         })
     }
 
+    getParams = function (url) {
+        var params = {};
+        var parser = document.createElement('a');
+        parser.href = url;
+        var query = parser.search.substring(1);
+        var vars = query.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            params[pair[0]] = decodeURIComponent(pair[1]);
+        }
+        return params;
+    };
 
     render() {
+        console.log(this.state.data)
+        var codigo = 0;
+        var nombre = "";
+        var creditos = 0;
+        var horas = 0 ;
+        //console.log(objeto)
+        this.state.data.forEach(function (elemento, indice, array) {
+            console.log(elemento, indice);
+            codigo = elemento.codigo;
+            nombre = elemento.nombre;
+            creditos = elemento.creditos;
+            horas = elemento.horas;
+        });
         return (
             <React.Fragment>
             <div className='container'>
@@ -50,25 +75,25 @@ class actualizarCursos extends React.Component {
                 <div class="form-group row">
                     <label for="id">ID</label>
                     <div class="col-sm-10">
-                        <input type='number' class="form-control" id="ID" name="ID"></input>
+                        <input type='number' class="form-control" id="ID" name="ID" value={codigo}></input>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="nombre">Nombre</label>
                     <div class="col-sm-10">
-                        <input type='text' class="form-control" id="nombre" name="nombre"></input>
+                        <input type='text' class="form-control" id="nombre" name="nombre" value={nombre}></input>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="creditos">Creditos</label>
                     <div class="col-sm-10">
-                        <input type='number' class="form-control" id="creditos" name="creditos"></input>
+                        <input type='number' class="form-control" id="creditos" name="creditos" value={creditos}></input>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="horas">Horas</label>
                     <div class="col-sm-10">
-                        <input type='number' class="form-control" id="horas" name="horas"></input>
+                        <input type='number' class="form-control" id="horas" name="horas" value={horas}></input>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>

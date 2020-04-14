@@ -11,6 +11,7 @@ class actualizarCarreras extends React.Component {
             error: null,
             data: [],
         }
+        this.data = {};
 
     }
 
@@ -19,6 +20,7 @@ class actualizarCarreras extends React.Component {
     }
     setsetState(datos) {
         this.state.data = datos
+        //this.data = datos[0];
     }
     fetchData = (URL, options = {}) => {
         
@@ -30,13 +32,13 @@ class actualizarCarreras extends React.Component {
                 port: 8080
             }
         };
-        console.log(this.getParams(window.location.href))
+        //console.log(this.getParams(window.location.href))
         
-        console.log(props)
+        //console.log(props)
         axios.get(props, config).then(res => {
             const datos = res.data;
             this.state.data = datos;
-            console.log(this.state.data)
+            //console.log(this.state.data)
             this.setState({ datos });
         })
     }
@@ -55,6 +57,17 @@ class actualizarCarreras extends React.Component {
 
 
     render() {
+        //console.log(this.state.data)
+        var codigo = 0;
+        var nombre = "";
+        var titulo = "";
+        //console.log(objeto)
+        this.state.data.forEach(function (elemento, indice, array) {
+            console.log(elemento, indice);
+            codigo = elemento.codigo;
+            nombre = elemento.nombre;
+            titulo = elemento.titulo;
+        });
         return (
             <React.Fragment>
             <div className='container'>
@@ -65,19 +78,19 @@ class actualizarCarreras extends React.Component {
                 <div class="form-group row">
                     <label for="id">ID</label>
                     <div class="col-sm-10">
-                        <input type='number' class="form-control" id="ID" name="ID" value={this.state}></input>
+                        <input type='number' class="form-control" id="ID" name="ID" value={codigo}></input>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="nombre">Nombre</label>
                     <div class="col-sm-10">
-                        <input type='text' class="form-control" id="nombre" name="nombre"></input>
+                        <input type='text' class="form-control" id="nombre" name="nombre" value={nombre}></input>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="titulo">Titulo</label>
                     <div class="col-sm-10">
-                        <input type='text' class="form-control" id="nombre" name="titulo"></input>
+                        <input type='text' class="form-control" id="nombre" name="titulo" value={titulo}></input>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
