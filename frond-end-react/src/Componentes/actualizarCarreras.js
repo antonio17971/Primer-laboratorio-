@@ -9,17 +9,25 @@ class actualizarCarreras extends React.Component {
         this.state = {
             loading: true,
             error: null,
-            data: [],
+            data: { 
+                codigo: 0,
+                nombre: "",
+                titulo: "",},
         }
-        this.data = {};
+        this.data = {
+            codigo: 0,
+            nombre: "",
+            titulo: "",};
 
     }
+    
 
     componentDidMount() {
         this.fetchData();
     }
     setsetState(datos) {
-        this.state.data = datos
+        //this.state.data.codigo = datos
+        //console.log(datos)
         //this.data = datos[0];
     }
     fetchData = (URL, options = {}) => {
@@ -37,11 +45,15 @@ class actualizarCarreras extends React.Component {
         //console.log(props)
         axios.get(props, config).then(res => {
             const datos = res.data;
-            this.state.data = datos;
-            //console.log(this.state.data)
+            this.state.data = datos[0];
+            this.data = datos;
+            console.log(this.data)
             this.setState({ datos });
         })
     }
+    handleChange(event) {
+        console.log(event.target.value)
+        this.state.data.codigo = event.target.value}  ;
     getParams = function (url) {
         var params = {};
         var parser = document.createElement('a');
@@ -55,19 +67,21 @@ class actualizarCarreras extends React.Component {
         return params;
     };
 
+   
+
 
     render() {
         //console.log(this.state.data)
         var codigo = 0;
         var nombre = "";
         var titulo = "";
-        //console.log(objeto)
-        this.state.data.forEach(function (elemento, indice, array) {
-            console.log(elemento, indice);
-            codigo = elemento.codigo;
-            nombre = elemento.nombre;
-            titulo = elemento.titulo;
-        });
+        console.log(this.state.data)
+        //this.state.data.forEach(function (elemento, indice, array) {
+            //console.log(elemento, indice);
+           // codigo = elemento.codigo;
+           // nombre = elemento.nombre;
+           // titulo = elemento.titulo;
+        //});
         return (
             <React.Fragment>
             <div className='container'>
@@ -78,19 +92,19 @@ class actualizarCarreras extends React.Component {
                 <div class="form-group row">
                     <label for="id">ID</label>
                     <div class="col-sm-10">
-                        <input type='number' class="form-control" id="ID" name="ID" value={codigo}></input>
+                        <input type='number' class="form-control" id="ID" name="ID" value={this.state.data.codigo} onChange={(e)=>this.handleChange(e)}></input>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="nombre">Nombre</label>
                     <div class="col-sm-10">
-                        <input type='text' class="form-control" id="nombre" name="nombre" value={nombre}></input>
+                        <input type='text' class="form-control" id="nombre" name="nombre" value={this.state.data.nombre}></input>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="titulo">Titulo</label>
                     <div class="col-sm-10">
-                        <input type='text' class="form-control" id="nombre" name="titulo" value={titulo}></input>
+                        <input type='text' class="form-control" id="nombre" name="titulo" value={this.state.data.titulo}></input>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
