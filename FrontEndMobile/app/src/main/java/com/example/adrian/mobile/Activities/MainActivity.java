@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+
+import com.example.adrian.mobile.AccesoDatos.Model;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -13,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adrian.mobile.R;
@@ -20,9 +25,18 @@ import com.example.adrian.mobile.R;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Model model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if (extras == null){
+            this.model = new Model();
+        }
+        else{
+            this.model = (Model) extras.getSerializable("model");
+        }
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -33,11 +47,13 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         whiteNotificationBar(navigationView);
         navigationView.setNavigationItemSelectedListener(this);
-    }
+        View headerView = (View) navigationView.getHeaderView(0);
+        TextView loggedUserEmail = (TextView) headerView.findViewById(R.id.emailLoggedUser);
+        loggedUserEmail.setText(this.model.getLoggedUser().getEmail());
+     }
 
     private void whiteNotificationBar(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
