@@ -39,6 +39,7 @@ public class actualizarCurso extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        curso = new Curso();
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
         String nombre = (String) request.getParameter("nombre");
