@@ -1,0 +1,13 @@
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\bin\Debug\netstandard2.0\Laboratorio.deps.json
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\bin\Debug\netstandard2.0\Laboratorio.dll
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\bin\Debug\netstandard2.0\ref\Laboratorio.dll
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\bin\Debug\netstandard2.0\Laboratorio.pdb
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\Laboratorio.csprojAssemblyReference.cache
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\App.xaml.g.cs
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\MainPage.xaml.g.cs
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\Laboratorio.AssemblyInfoInputs.cache
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\Laboratorio.AssemblyInfo.cs
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\Laboratorio.dll
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\ref\Laboratorio.dll
+C:\Users\jose1\source\repos\Laboratorio\Laboratorio\Laboratorio\obj\Debug\netstandard2.0\Laboratorio.pdb

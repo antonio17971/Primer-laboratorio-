@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Laboratorio.MainPage">
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Text="Juego de Memoria" Grid.Row="0" HorizontalTextAlignment="End" VerticalTextAlignment="End" TextColor="Black"
+        FontSize="60" Grid.ColumnSpan="5" />
+        <Button  Text="" Grid.Row="1" Grid.Column="0" 
+                 Clicked="click_0_0"/>
+        <Button  Text="" Grid.Row="1" Grid.Column="1" 
+                 Clicked="click_0_1"/>
+        <Button  Text="" Grid.Row="1" Grid.Column="2" 
+                 Clicked="click_0_2"/>
+        <Button  Text="" Grid.Row="1" Grid.Column="3" 
+                 Clicked="click_0_3"/>
+        <Button  Text="" Grid.Row="1" Grid.Column="4" 
+                 Clicked="click_0_4"/>
+
+        <Button  Text="" Grid.Row="2" Grid.Column="0" 
+                 Clicked="click_1_0"/>
+        <Button  Text="" Grid.Row="2" Grid.Column="1" 
+                 Clicked="click_1_1"/>
+        <Button  Text="" Grid.Row="2" Grid.Column="2" 
+                 Clicked="click_1_2"/>
+        <Button  Text="" Grid.Row="2" Grid.Column="3" 
+                 Clicked="click_1_3"/>
+        <Button  Text="" Grid.Row="2" Grid.Column="4" 
+                 Clicked="click_1_4"/>
+
+        <Button  Text="" Grid.Row="3" Grid.Column="0" 
+                 Clicked="click_2_0"/>
+        <Button  Text="" Grid.Row="3" Grid.Column="1" 
+                 Clicked="click_2_1"/>
+        <Button  Text="" Grid.Row="3" Grid.Column="2" 
+                 Clicked="click_2_2"/>
+        <Button  Text="" Grid.Row="3" Grid.Column="3" 
+                 Clicked="click_2_3"/>
+        <Button  Text="" Grid.Row="3" Grid.Column="4" 
+                 Clicked="click_2_4"/>
+
+        <Button  Text="" Grid.Row="4" Grid.Column="0" 
+                 Clicked="click_3_0"/>
+        <Button  Text="" Grid.Row="4" Grid.Column="1" 
+                 Clicked="click_3_1"/>
+        <Button  Text="" Grid.Row="4" Grid.Column="2" 
+                 Clicked="click_3_2"/>
+        <Button  Text="" Grid.Row="4" Grid.Column="3" 
+                 Clicked="click_3_3"/>
+        <Button  Text="" Grid.Row="4" Grid.Column="4" 
+                 Clicked="click_3_4"/>
+
+       
+    </Grid>
+
+
+</ContentPage>
