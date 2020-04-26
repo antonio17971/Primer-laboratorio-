@@ -8,7 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import com.example.adrian.mobile.LogicaNegocio.CursoModel;
+import com.example.adrian.mobile.Models.CursoModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,11 +49,7 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
         Toolbar toolbar = findViewById(R.id.toolbarCu);
         setSupportActionBar(toolbar);
 
-        //toolbar fancy stuff
-        // getSupportActionBar().setTitle(getString(R.string.my_curso));
-
         mRecyclerView = findViewById(R.id.recycler_cursoFld);
-        cursoList = new ArrayList<>();
         model = new Model();
         cursoList = model.getCursos();
         mAdapter = new CursoAdapter(cursoList, this);
@@ -236,6 +232,7 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
             } else {
                 //found a new CursoModel Object
                 cursoList.add(aux);
+                model.addCurso(aux);
                 Toast.makeText(getApplicationContext(), aux.getNombre() + " agregado correctamente", Toast.LENGTH_LONG).show();
             }
         }

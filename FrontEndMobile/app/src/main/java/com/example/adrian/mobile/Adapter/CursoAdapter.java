@@ -9,7 +9,7 @@ import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.adrian.mobile.LogicaNegocio.CursoModel;
+import com.example.adrian.mobile.Models.CursoModel;
 import com.example.adrian.mobile.R;
 
 import java.util.ArrayList;

@@ -1,12 +1,11 @@
 package com.example.adrian.mobile.AccesoDatos;
 
-import com.example.adrian.mobile.LogicaNegocio.CarreraModel;
-import com.example.adrian.mobile.LogicaNegocio.CursoModel;
-import com.example.adrian.mobile.LogicaNegocio.UserModel;
+import com.example.adrian.mobile.Models.CarreraModel;
+import com.example.adrian.mobile.Models.CursoModel;
+import com.example.adrian.mobile.Models.UserModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Model implements Serializable {
 

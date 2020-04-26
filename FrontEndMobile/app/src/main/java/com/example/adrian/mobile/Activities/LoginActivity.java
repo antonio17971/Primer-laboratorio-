@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.adrian.mobile.AccesoDatos.Model;
-import com.example.adrian.mobile.LogicaNegocio.UserModel;
+import com.example.adrian.mobile.Models.UserModel;
 import com.example.adrian.mobile.R;
 
 /**
