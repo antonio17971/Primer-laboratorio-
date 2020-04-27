@@ -1,4 +1,4 @@
-package com.example.adrian.mobile.LogicaNegocio;
+package com.example.adrian.mobile.Models;
 
 import java.io.Serializable;
 

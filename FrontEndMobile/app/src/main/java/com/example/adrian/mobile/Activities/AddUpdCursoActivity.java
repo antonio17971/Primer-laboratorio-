@@ -3,8 +3,8 @@ package com.example.adrian.mobile.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.adrian.mobile.LogicaNegocio.CarreraModel;
-import com.example.adrian.mobile.LogicaNegocio.CursoModel;
+import com.example.adrian.mobile.Models.CarreraModel;
+import com.example.adrian.mobile.Models.CursoModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -95,7 +95,6 @@ public class AddUpdCursoActivity extends AppCompatActivity {
         if (validateForm()) {
             //do something
             CarreraModel carr = buscarCarrera(model.getCarreras(), (CarreraModel)carreras.getSelectedItem());
-//            Ciclo cic = buscarCiclo(model.getCicloList(), ciclos.getSelectedItem().toString());
 
             CursoModel cur = new CursoModel(
                     Integer.parseInt(codFld.getText().toString()),
@@ -182,7 +181,6 @@ public class AddUpdCursoActivity extends AppCompatActivity {
     }
 
     private void loadCarreras() {
-        // im not sure about this
         ArrayAdapter<CarreraModel> adapter = new ArrayAdapter<CarreraModel>(this, R.layout.support_simple_spinner_dropdown_item, model.getCarreras());
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         carreras.setAdapter(adapter);
