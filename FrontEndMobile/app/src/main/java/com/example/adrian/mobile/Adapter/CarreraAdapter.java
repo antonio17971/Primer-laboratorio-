@@ -3,14 +3,13 @@ package com.example.adrian.mobile.Adapter;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.adrian.mobile.LogicaNegocio.CarreraModel;
+import com.example.adrian.mobile.Models.CarreraModel;
 import com.example.adrian.mobile.R;
 
 import java.util.ArrayList;

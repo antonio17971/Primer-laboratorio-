@@ -8,7 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import com.example.adrian.mobile.LogicaNegocio.CarreraModel;
+import com.example.adrian.mobile.Models.CarreraModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;

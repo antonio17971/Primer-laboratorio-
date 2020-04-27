@@ -3,7 +3,7 @@ package com.example.adrian.mobile.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.adrian.mobile.LogicaNegocio.CarreraModel;
+import com.example.adrian.mobile.Models.CarreraModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
