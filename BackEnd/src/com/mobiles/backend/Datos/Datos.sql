@@ -338,12 +338,13 @@ CREATE OR REPLACE NONEDITIONABLE FUNCTION listar_carreras RETURN types.ref_curso
     cursor_carreras types.ref_cursor;
 BEGIN
     OPEN cursor_carreras FOR SELECT
-                                 codigo,
-                                 nombre,
-                                 creditos,
-                                 horas
+                                 vcc.carreracodigo   codigo,
+                                 vcc.carreranombre   nombre,
+                                 vcc.titulo          titulo
                              FROM
-                                 cursos;
+                                 v_carreras_cursos vcc
+                             WHERE
+                                 vcc.carreracodigo <> 0;
 
     RETURN cursor_carreras;
 END;
