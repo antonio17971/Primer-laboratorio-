@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ClassRest consulta = new ClassRest();
         try {
-            consulta.getLista("http://192.168.0.119:8080/ServerWeb/listarCarreras");
+            consulta.getLista("http://192.168.0.119:8080/ServerWeb//incertarCarrera");
         } catch (JSONException e) {
             e.printStackTrace();
         }

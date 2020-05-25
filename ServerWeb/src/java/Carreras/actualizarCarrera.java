@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jose1
  */
-@WebServlet(name = "actualizarCarrera", urlPatterns = {"/actualizarCarrera"})
+@WebServlet(name = "actualizarCarrera", urlPatterns = {" g"})
 public class actualizarCarrera extends HttpServlet {
 
     
@@ -69,12 +69,12 @@ public class actualizarCarrera extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
+    }*/
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -83,13 +83,13 @@ public class actualizarCarrera extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
-
+    }*/
+  
     /**
      * Handles the HTTP <code>PUT</code> method.
      *

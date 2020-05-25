@@ -61,12 +61,12 @@ public class borrarCarrera extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
+    }*/
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -75,12 +75,12 @@ public class borrarCarrera extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
+    }*/
      /**
      * Handles the HTTP <code>DELETE</code> method.
      *
