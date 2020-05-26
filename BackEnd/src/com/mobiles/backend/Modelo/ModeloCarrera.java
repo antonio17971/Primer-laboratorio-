@@ -20,11 +20,11 @@ public class ModeloCarrera {
     private static ModeloCarrera instance;
     private ServicioCarrera carrera;
 
-    public ModeloCarrera(ServicioCarrera carrera) {
+    private ModeloCarrera(ServicioCarrera carrera) {
         this.carrera = carrera;
     }
 
-    public ModeloCarrera() {
+    private ModeloCarrera() {
          this.carrera = new ServicioCarrera();
     }
     

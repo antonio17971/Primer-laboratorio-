@@ -20,11 +20,11 @@ public class ModeloCurso {
     private static ModeloCurso instance;
     private ServicioCurso curso;
 
-    public ModeloCurso() {
+    private ModeloCurso() {
         this.curso = new ServicioCurso();
     }
 
-    public ModeloCurso(ServicioCurso curso) {
+    private ModeloCurso(ServicioCurso curso) {
         this.curso = curso;
     }
     
