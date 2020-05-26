@@ -5,19 +5,22 @@
  */
 package com.mobiles.backend.Control;
 
+import com.mobiles.backend.AccesoADatos.GlobalException;
+import com.mobiles.backend.AccesoADatos.NoDataException;
 import com.mobiles.backend.Entidades.*;
-import com.mobiles.backend.AccesoADatos.*;
+import com.mobiles.backend.Modelo.ModeloCarrera;
+import com.mobiles.backend.Modelo.ModeloCurso;
 import java.util.Collection;
 
 public class Control {
 
     private static Control instance;
-    private final ServicioCarrera servicioCarrera;
-    private final ServicioCurso servicioCurso;
+    private final ModeloCarrera modeloCarrera;
+    private final ModeloCurso modeloCurso;
 
-    public Control() {
-        this.servicioCarrera = new ServicioCarrera();
-        this.servicioCurso = new ServicioCurso();
+    private Control() {
+        this.modeloCarrera = ModeloCarrera.getInstance();
+        this.modeloCurso = ModeloCurso.getInstance();
     }
 
     public static Control getInstance() {
@@ -28,44 +31,30 @@ public class Control {
     }
 
     //****************************************************
-    // INICION METODOS GET PARA LOS SERVICIOS
-    //****************************************************
-    private ServicioCarrera getServicioCarrera() {
-        return this.servicioCarrera;
-    }
-
-    private ServicioCurso getServicioCurso() {
-        return this.servicioCurso;
-    }
-    //****************************************************
-    // FIN METODOS GET PARA LOS SERVICIOS
-    //****************************************************
-
-    //****************************************************
     // INICIO BLOQUE PARA CONTROL DE CURSOS
     //****************************************************
     public Collection listarCursos() throws GlobalException, NoDataException {
-        return this.getServicioCurso().listar_curso();
+        return this.modeloCurso.listarCursos();
     }
 
     public Collection buscarCurso(int codigoCurso) throws GlobalException, NoDataException {
-        return this.getServicioCurso().buscar_curso(codigoCurso);
+        return this.modeloCurso.buscarCurso(codigoCurso);
     }
 
     public Collection buscarCurso(String nombreCodigo) throws GlobalException, NoDataException {
-        return this.getServicioCurso().buscar_curso(nombreCodigo);
+        return this.modeloCurso.buscarCurso(nombreCodigo);
     }
 
     public void borrarCurso(int codigoCurso) throws GlobalException, NoDataException {
-        this.getServicioCurso().borrar_curso(codigoCurso);
+        this.modeloCurso.borrarCurso(codigoCurso);
     }
 
     public Curso insertarCurso(Curso curso) throws GlobalException, NoDataException {
-        return this.getServicioCurso().insertar_curso(curso);
+        return this.modeloCurso.insertarCurso(curso);
     }
 
     public Curso actualizarCurso(Curso curso) throws GlobalException, NoDataException {
-        return this.getServicioCurso().update_curso(curso);
+        return this.modeloCurso.actualizarCurso(curso);
     }
     //****************************************************
     // FIN BLOQUE PARA CONTROL DE CURSOS
@@ -75,38 +64,37 @@ public class Control {
     // INICIO BLOQUE PARA CONTROL DE CARRERAS
     //****************************************************
     public Collection listarCarreras() throws GlobalException, NoDataException {
-        return this.getServicioCarrera().listar_carrera();
+        return this.modeloCarrera.listarCarreras();
     }
 
     public Collection listarCursosCarrera(int codigoCarrera) throws GlobalException, NoDataException {
-        return this.getServicioCarrera().buscar_carrera_cursos(codigoCarrera);
+        return this.modeloCarrera.listarCursosCarrera(codigoCarrera);
     }
 
     public Collection buscarCarrera(int codigoCarrera) throws GlobalException, NoDataException {
-        return this.getServicioCarrera().buscar_carrera(codigoCarrera);
+        return this.modeloCarrera.buscarCarrera(codigoCarrera);
     }
 
     public Collection buscarCarrera(String nombreCarrera) throws GlobalException, NoDataException {
-        return this.getServicioCarrera().buscar_carrera(nombreCarrera);
+        return this.modeloCarrera.buscarCarrera(nombreCarrera);
     }
 
     public void borrarCarrera(int codigoCarrera) throws GlobalException, NoDataException {
-        this.getServicioCarrera().borrar_carrera(codigoCarrera);
+        this.modeloCarrera.borrarCarrera(codigoCarrera);
     }
 
     public void borrarCarreraCurso(int codCarrera, int codCurso) throws GlobalException, NoDataException {
-        this.getServicioCarrera().borrar_carrera_curso(codCarrera, codCurso);
+        this.modeloCarrera.borrarCarreraCurso(codCarrera, codCurso);
     }
 
     public Carrera insertarCarrera(Carrera carrera) throws GlobalException, NoDataException {
-        return this.getServicioCarrera().insertar_carrera(carrera);
+        return this.modeloCarrera.insertarCarrera(carrera);
     }
 
     public Carrera actualizarCarrera(Carrera carrera) throws GlobalException, NoDataException {
-        return this.getServicioCarrera().update_carrera(carrera);
+        return this.modeloCarrera.actualizarCarrera(carrera);
     }
     //****************************************************
     // FIN BLOQUE PARA CONTROL DE CARRERAS
     //****************************************************
-
 }
