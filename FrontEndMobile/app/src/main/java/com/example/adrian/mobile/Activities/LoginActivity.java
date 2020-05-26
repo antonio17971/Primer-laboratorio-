@@ -11,8 +11,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.adrian.mobile.AccesoDatos.Model;
+import com.example.adrian.mobile.Models.ClassRest;
 import com.example.adrian.mobile.Models.UserModel;
 import com.example.adrian.mobile.R;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 /**
  * A login screen that offers login via email/password.
@@ -55,6 +60,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ClassRest consulta = new ClassRest();
+        try {
+            consulta.getLista("http://192.168.0.119:8080/ServerWeb//incertarCarrera");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //consulta.execute();
     }
 
 }
