@@ -26,6 +26,7 @@ public class ClassRest  extends AsyncTask<String, String, String> {
     private String apiUrl;
     private  String metodo;
     private String json;
+    private JSONObject jsonObject;
 
     public ClassRest(String apiUrl, String metodo) {
         this.apiUrl = apiUrl;
@@ -40,6 +41,7 @@ public class ClassRest  extends AsyncTask<String, String, String> {
         this.apiUrl = "";
         this.metodo = "";
         this.json = "";
+        this.jsonObject = null;
     }
 
     public String getMetodo() {
@@ -71,13 +73,15 @@ public class ClassRest  extends AsyncTask<String, String, String> {
         this.apiUrl = url;
         this.metodo = "GET";
         this.execute();
-        JSONObject jsonObject = null;
         jsonObject = new JSONObject(json);
         return jsonObject;
     }
 
     public void post(String url , JSONObject json){
-
+        this.jsonObject = json;
+        this.apiUrl = url;
+        this.metodo = "POST";
+        this.execute();
     }
 
     @Override
@@ -87,6 +91,9 @@ public class ClassRest  extends AsyncTask<String, String, String> {
     }
     @Override
     protected String doInBackground(String... strings) {
+        URL url ;
+        HttpURLConnection urlConnection = null;
+        urlConnection.setRequestMethod(metodo);
 /*
         URL url ;
         HttpURLConnection urlConnection = null;
@@ -110,15 +117,11 @@ public class ClassRest  extends AsyncTask<String, String, String> {
 
         try {
             URL url = new URL(apiUrl); // here is your URL path
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("nombre", "Juan" );
-            jsonObject.put("codigo", 1 );
-            jsonObject.put("titulo", "Hola" );
-            //Log.e("params",postDataParams.toString());
+            JSONObject jsonObject = this.jsonObject;
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod(metodo);
             conn.setDoInput(true);
             conn.setDoOutput(true);
             OutputStream os = conn.getOutputStream();

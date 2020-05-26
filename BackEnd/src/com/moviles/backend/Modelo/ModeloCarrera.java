@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modelo;
+package com.moviles.backend.Modelo;
 
 import com.mobiles.backend.AccesoADatos.GlobalException;
 import com.mobiles.backend.AccesoADatos.NoDataException;
