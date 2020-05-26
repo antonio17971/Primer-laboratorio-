@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -83,6 +84,12 @@ public class ClassRest  extends AsyncTask<String, String, String> {
         this.metodo = "POST";
         this.execute();
     }
+    public void put(String url , JSONObject json){
+        this.jsonObject = json;
+        this.apiUrl = url;
+        this.metodo = "PUT";
+        this.execute();
+    }
 
     @Override
     protected void onPreExecute(){
@@ -93,67 +100,53 @@ public class ClassRest  extends AsyncTask<String, String, String> {
     protected String doInBackground(String... strings) {
         URL url ;
         HttpURLConnection urlConnection = null;
-        urlConnection.setRequestMethod(metodo);
-/*
-        URL url ;
-        HttpURLConnection urlConnection = null;
 
         try {
             url = new URL(this.apiUrl);
+            urlConnection.setRequestMethod(metodo);
             urlConnection =  (HttpURLConnection) url.openConnection();
-            //urlConnection.setRequestMethod(metodo);
 
-            InputStream in = urlConnection.getInputStream();
-            InputStreamReader isw = new InputStreamReader(in,"UTF-8");
-            BufferedReader  stringBufer= new BufferedReader(isw);
+            if(metodo.equals("GET")){
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader isw = new InputStreamReader(in,"UTF-8");
+                BufferedReader  stringBufer= new BufferedReader(isw);
 
-            String data = "";
-            while ((data = stringBufer.readLine()) != null)
-                json +=data;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-*/
-
-        try {
-            URL url = new URL(apiUrl); // here is your URL path
-            JSONObject jsonObject = this.jsonObject;
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(15000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod(metodo);
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-            writer.write(jsonObject.toString());
-            writer.flush();
-            writer.close();
-            os.close();
-            int responseCode=conn.getResponseCode();
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
-                BufferedReader in=new BufferedReader(
-                        new InputStreamReader(
-                                conn.getInputStream()));
-                StringBuffer sb = new StringBuffer("");
-                String line="";
-                while((line = in.readLine()) != null) {
-                    sb.append(line);
-                    break;
+                String data = "";
+                while ((data = stringBufer.readLine()) != null)
+                    json +=data;
+            }else if(metodo.equals("POST") || metodo.equals("PUT")){
+                urlConnection.setReadTimeout(15000 /* milliseconds */);
+                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode=urlConnection.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader in=new BufferedReader(
+                            new InputStreamReader(
+                                    urlConnection.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line="";
+                    while((line = in.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    in.close();
+                    return sb.toString();
+                }else {
+                    return new String("false : "+responseCode);
                 }
-                in.close();
-                return sb.toString();
             }
-            else {
-                return new String("false : "+responseCode);
-            }
-        }
-        catch(Exception e){
+        } catch (Exception e){
             return new String("Exception: " + e.getMessage());
         }
 
-
-       // return null;
+        return null;
     }
 
     @Override
