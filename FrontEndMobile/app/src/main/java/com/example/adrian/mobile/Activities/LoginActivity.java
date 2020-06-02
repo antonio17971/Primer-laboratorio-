@@ -1,6 +1,7 @@
 package com.example.adrian.mobile.Activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +19,8 @@ import com.example.adrian.mobile.R;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * A login screen that offers login via email/password.
@@ -67,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         //consulta.execute();
     }
 

@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 public class buscarCurso extends HttpServlet {
 
     
-    private Control control = new Control();
+    private Control control = Control.getInstance();
     private String cursosJsonString;
     Collection cursos;
     /**

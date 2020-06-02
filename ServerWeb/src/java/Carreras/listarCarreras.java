@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 public class listarCarreras extends HttpServlet {
 
     
-    private Control control = new Control();
+    private Control control = Control.getInstance();
     private String carrerasJsonString;
     Collection carreras;
     /**

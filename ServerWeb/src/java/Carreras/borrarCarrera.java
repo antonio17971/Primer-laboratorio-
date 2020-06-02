@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class borrarCarrera extends HttpServlet {
 
     
-    private Control control = new Control();
+    private Control control = Control.getInstance();
     private String carreraJsonString;
     Collection carrera;
     /**

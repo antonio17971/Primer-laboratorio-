@@ -25,7 +25,7 @@ import org.json.JSONObject;
 @WebServlet(name = "incertarCarrera", urlPatterns = {"/incertarCarrera"})
 public class incertarCarrera extends HttpServlet {
 
-    private Control control = new Control();
+    private Control control = Control.getInstance();
     private String carreraJsonString;
     Carrera carrera = new Carrera();
     /**
@@ -72,7 +72,7 @@ public class incertarCarrera extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
-        /*
+        
         StringBuilder jsonBuff = new StringBuilder();
         String line = null;
         BufferedReader reader = request.getReader();
@@ -80,13 +80,13 @@ public class incertarCarrera extends HttpServlet {
             jsonBuff.append(line);
         
         JSONObject jsonObject =  new JSONObject(jsonBuff.toString());
-        */
+        
         String nombre = (String) request.getParameter("nombre");
         int id =  Integer.parseInt(request.getParameter("ID"));
         String titulo = (String) request.getParameter("titulo");
         carrera.setCodigo(id);
         carrera.setNombre(nombre);
-        carrera.setTitulo(titulo);
+        carrera.setTitulo(titulo);   
         //carrera = gson.fromJson(jsonObject.toString(), Carrera.class);
         carreraJsonString = gson.toJson(carrera);
         try {

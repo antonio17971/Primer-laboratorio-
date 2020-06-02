@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -28,7 +29,20 @@ import com.example.adrian.mobile.AccesoDatos.Model;
 import com.example.adrian.mobile.Adapter.CarreraAdapter;
 import com.example.adrian.mobile.Helper.RecyclerItemTouchHelper;
 import com.example.adrian.mobile.R;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +55,7 @@ public class AdmCarreraActivity extends AppCompatActivity implements RecyclerIte
     private SearchView searchView;
     private FloatingActionButton fab;
     private Model model;
+    private static final String URL = "http://192.168.0.119:8080/ServerWeb/listarCarreras";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +64,16 @@ public class AdmCarreraActivity extends AppCompatActivity implements RecyclerIte
         Toolbar toolbar = findViewById(R.id.toolbarCa);
         setSupportActionBar(toolbar);
 
+
         //toolbar fancy stuff
       //  getSupportActionBar().setTitle(getString(R.string.my_carrera));
 
         mRecyclerView = findViewById(R.id.recycler_carreraFld);
         carreraList = new ArrayList<>();
         model = new Model();
-        carreraList = model.getCarreras();
-        mAdapter = new CarreraAdapter(carreraList, this);
-        coordinatorLayout = findViewById(R.id.coordinator_layoutCa);
+        GetCarreras getLista = new GetCarreras(this.URL, this);
+        getLista.execute();
 
-        // white background notification bar
-        whiteNotificationBar(mRecyclerView);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setAdapter(mAdapter);
 
         // go to update or add career
         fab = findViewById(R.id.addBtnCa);
@@ -88,7 +95,7 @@ public class AdmCarreraActivity extends AppCompatActivity implements RecyclerIte
         checkIntentInformation();
 
         //refresh view
-        mAdapter.notifyDataSetChanged();
+
     }
 
     private void checkIntentInformation() {
@@ -243,6 +250,83 @@ public class AdmCarreraActivity extends AppCompatActivity implements RecyclerIte
     @Override
     public void onContactSelected(CarreraModel carrera) { //TODO get the select item of recycleView
         Toast.makeText(getApplicationContext(), "Selected: " + carrera.getCodigo() + ", " + carrera.getNombre(), Toast.LENGTH_LONG).show();
+    }
+
+    class GetCarreras extends AsyncTask<URL, Integer, String> {
+
+
+        private String apiUrl;
+        private AdmCarreraActivity activity;
+        public GetCarreras(String apiUrl, AdmCarreraActivity activity) {
+            super ();
+            this.apiUrl = apiUrl;
+            this.activity = activity;
+        }
+
+
+
+        protected String doInBackground(URL... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String json = "";
+            try {
+                url = new URL(this.apiUrl);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+
+
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader isw = new InputStreamReader(in,"UTF-8");
+                BufferedReader stringBufer= new BufferedReader(isw);
+
+                String data = "";
+                while ((data = stringBufer.readLine()) != null)
+                    json +=data;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return json;
+
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            JSONArray jsonArray = null;
+            Gson gson = new Gson();
+            ArrayList<CarreraModel> carreras = new ArrayList<>();
+            try {
+                jsonArray = new JSONArray(result);
+                for (int i=0;i<jsonArray.length();i++){
+                    //carreras.add( gson.fromJson(jsonArray.getString(i), CarreraModel.class));
+                    model.addCarrera(gson.fromJson(jsonArray.getString(i), CarreraModel.class));
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            carreraList = model.getCarreras();
+            mAdapter = new CarreraAdapter(carreraList, this.activity);
+            coordinatorLayout = findViewById(R.id.coordinator_layoutCa);
+
+            // white background notification bar
+            whiteNotificationBar(mRecyclerView);
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(this.activity, DividerItemDecoration.VERTICAL));
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 }

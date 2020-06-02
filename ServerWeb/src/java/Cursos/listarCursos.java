@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
 public class listarCursos extends HttpServlet {
 
     
-    private Control control = new Control();
+    private Control control = Control.getInstance();
     private String cursosJsonString;
     Collection cursos;
     /**

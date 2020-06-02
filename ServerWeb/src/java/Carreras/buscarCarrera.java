@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "buscarCarrera", urlPatterns = {"/buscarCarrera"})
 public class buscarCarrera extends HttpServlet {
 
-    private Control control = new Control();
+    private Control control = Control.getInstance();
     private String carrerasJsonString;
     Collection carreras;
     /**

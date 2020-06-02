@@ -21,11 +21,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jose1
  */
-@WebServlet(name = "actualizarCarrera", urlPatterns = {" g"})
+@WebServlet(name = "actualizarCarrera")
 public class actualizarCarrera extends HttpServlet {
 
     
-    private Control control = new Control();
+    private Control control = Control.getInstance();
     private String carreraJsonString;
     Carrera carrera;
     /**

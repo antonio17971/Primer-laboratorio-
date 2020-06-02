@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "actualizarCurso", urlPatterns = {"/actualizarCurso"})
 public class actualizarCurso extends HttpServlet {
 
-    private Control control = new Control();
+    private Control control = Control.getInstance();
     private String cursoJsonString;
     Curso curso;
     /**

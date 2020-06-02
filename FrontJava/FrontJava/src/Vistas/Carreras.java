@@ -314,7 +314,7 @@ public class Carreras extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         
-        Control control = new Control();
+        Control control = Control.getInstance();
         
         try {
             control.borrarCarrera(retornarPrimerCampo());
