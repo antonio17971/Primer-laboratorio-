@@ -1,6 +1,7 @@
 package com.example.adrian.mobile.Activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.adrian.mobile.Models.CarreraModel;
@@ -12,6 +13,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.adrian.mobile.R;
+import com.google.gson.JsonObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class AddUpdCarreraActivity extends AppCompatActivity {
 
@@ -20,7 +34,8 @@ public class AddUpdCarreraActivity extends AppCompatActivity {
     private EditText codFld;
     private EditText nomFld;
     private EditText tituloFld;
-
+    private  static final  String URL_POST =  "http://192.168.0.119:8080/ServerWeb/incertarCarrera";
+    private  static final  String URL_PUT =  "http://192.168.0.119:8080/ServerWeb/actualizarCarrera";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +88,8 @@ public class AddUpdCarreraActivity extends AppCompatActivity {
         if (validateForm()) {
             //do something
             CarreraModel car = new CarreraModel(Integer.parseInt(codFld.getText().toString()), nomFld.getText().toString(), tituloFld.getText().toString());
+            IncertCarrera incertar = new IncertCarrera(URL_POST, car);
+            incertar.execute();
             Intent intent = new Intent(getBaseContext(), AdmCarreraActivity.class);
             //sending carrera data
             intent.putExtra("addCarrera", car);
@@ -84,6 +101,8 @@ public class AddUpdCarreraActivity extends AppCompatActivity {
     public void editCarrera() {
         if (validateForm()) {
             CarreraModel car = new CarreraModel(Integer.parseInt(codFld.getText().toString()), nomFld.getText().toString(), tituloFld.getText().toString());
+            UpdateCarrera actualizar = new UpdateCarrera(URL_PUT,car);
+            actualizar.execute();
             Intent intent = new Intent(getBaseContext(), AdmCarreraActivity.class);
             //sending carrera data
             intent.putExtra("editCarrera", car);
@@ -111,5 +130,136 @@ public class AddUpdCarreraActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    class UpdateCarrera extends AsyncTask<String, Integer, String> {
+        private String apiUrl;
+        private CarreraModel carrera;
+
+        public UpdateCarrera(String URL, CarreraModel carrera){
+            this.apiUrl= URL;
+            this.carrera = carrera;
+        }
+        protected String doInBackground(String... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String query ="";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("codigo",carrera.getCodigo());
+            jsonObject.addProperty("nombre",carrera.getNombre());
+            jsonObject.addProperty("titulo",carrera.getTitulo());
+            try {
+                query = String.format(apiUrl);
+                url = new URL(query);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("PUT");
+                urlConnection.setReadTimeout(15000 /* milliseconds */);
+                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    urlConnection.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+                    while ((line = in.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    in.close();
+                    return sb.toString();
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            // do something on the UI thread
+        }
+    }
+
+
+    class IncertCarrera extends AsyncTask<String, Integer, String> {
+        private String apiUrl;
+        private CarreraModel carrera;
+
+        public IncertCarrera(String URL, CarreraModel carrera){
+            this.apiUrl= URL;
+            this.carrera = carrera;
+        }
+        protected String doInBackground(String... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String query ="";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("codigo",carrera.getCodigo());
+            jsonObject.addProperty("nombre",carrera.getNombre());
+            jsonObject.addProperty("titulo",carrera.getTitulo());
+            try {
+                query = String.format(apiUrl);
+                url = new URL(query);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setReadTimeout(15000 /* milliseconds */);
+                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    urlConnection.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+                    while ((line = in.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    in.close();
+                    return sb.toString();
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            // do something on the UI thread
+        }
     }
 }

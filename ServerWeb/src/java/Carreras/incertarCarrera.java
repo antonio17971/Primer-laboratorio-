@@ -79,15 +79,18 @@ public class incertarCarrera extends HttpServlet {
         while ((line = reader.readLine()) != null)
             jsonBuff.append(line);
         
-        JSONObject jsonObject =  new JSONObject(jsonBuff.toString());
+        if(jsonBuff.toString().equals("")){
+            String nombre = (String) request.getParameter("nombre");
+            int id =  Integer.parseInt(request.getParameter("ID"));
+            String titulo = (String) request.getParameter("titulo");
+            carrera.setCodigo(id);
+            carrera.setNombre(nombre);
+            carrera.setTitulo(titulo); 
+        }else{
+            JSONObject jsonObject =  new JSONObject(jsonBuff.toString());
+            carrera = gson.fromJson(jsonObject.toString(), Carrera.class);
+        }
         
-        String nombre = (String) request.getParameter("nombre");
-        int id =  Integer.parseInt(request.getParameter("ID"));
-        String titulo = (String) request.getParameter("titulo");
-        carrera.setCodigo(id);
-        carrera.setNombre(nombre);
-        carrera.setTitulo(titulo);   
-        //carrera = gson.fromJson(jsonObject.toString(), Carrera.class);
         carreraJsonString = gson.toJson(carrera);
         try {
             control.insertarCarrera(carrera);

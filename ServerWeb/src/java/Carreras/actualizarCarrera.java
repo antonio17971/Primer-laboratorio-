@@ -8,6 +8,7 @@ package Carreras;
 import com.google.gson.Gson;
 import com.mobiles.backend.Control.Control;
 import com.mobiles.backend.Entidades.Carrera;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -16,12 +17,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 
 /**
  *
  * @author jose1
  */
-@WebServlet(name = "actualizarCarrera")
+@WebServlet(name = "actualizarCarrera",urlPatterns = {"/actualizarCarrera"})
 public class actualizarCarrera extends HttpServlet {
 
     
@@ -43,12 +45,24 @@ public class actualizarCarrera extends HttpServlet {
         carrera = new Carrera();
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
-        String nombre = (String) request.getParameter("nombre");
-        int id =  Integer.parseInt(request.getParameter("ID"));
-        String titulo = (String) request.getParameter("titulo");
-        carrera.setCodigo(id);
-        carrera.setNombre(nombre);
-        carrera.setTitulo(titulo);
+        
+        StringBuilder jsonBuff = new StringBuilder();
+        String line = null;
+        BufferedReader reader = request.getReader();
+        while ((line = reader.readLine()) != null)
+            jsonBuff.append(line);
+        
+          if(jsonBuff.toString().equals("")){
+              String nombre = (String) request.getParameter("nombre");
+            int id =  Integer.parseInt(request.getParameter("ID"));
+            String titulo = (String) request.getParameter("titulo");
+            carrera.setCodigo(id);
+            carrera.setNombre(nombre);
+            carrera.setTitulo(titulo);
+          }else{
+             JSONObject jsonObject =  new JSONObject(jsonBuff.toString());
+            carrera = gson.fromJson(jsonObject.toString(), Carrera.class);
+          }
         carreraJsonString = gson.toJson(carrera);
         try {
             control.actualizarCarrera(carrera);
