@@ -4,10 +4,13 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.example.adrian.mobile.Adapter.CarreraAdapter;
+import com.example.adrian.mobile.Models.CarreraModel;
 import com.example.adrian.mobile.Models.CursoModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,7 +31,19 @@ import com.example.adrian.mobile.AccesoDatos.Model;
 import com.example.adrian.mobile.Adapter.CursoAdapter;
 import com.example.adrian.mobile.Helper.RecyclerItemTouchHelper;
 import com.example.adrian.mobile.R;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +57,8 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
     private FloatingActionButton fab;
     private Model model;
 
+    private static final String URL = "http://192.168.0.119:8080/ServerWeb/listarCursos";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +68,11 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
 
         mRecyclerView = findViewById(R.id.recycler_cursoFld);
         model = new Model();
+
+        GetCurso cursos = new GetCurso(URL, this);
+        cursos.execute();
+        /*
+
         cursoList = model.getCursos();
         mAdapter = new CursoAdapter(cursoList, this);
         coordinatorLayout = findViewById(R.id.coordinator_layoutCu);
@@ -63,7 +85,7 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(mAdapter);
-
+        */
         // go to update or add career
         fab = findViewById(R.id.addBtnCu);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +106,7 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
         checkIntentInformation();
 
         //refresh view
-        mAdapter.notifyDataSetChanged();
+       // mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -242,5 +264,83 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
         Intent intent = new Intent(this, AddUpdCursoActivity.class);
         intent.putExtra("editable", false);
         startActivity(intent);
+    }
+
+
+    class GetCurso extends AsyncTask<URL, Integer, String> {
+
+
+        private String apiUrl;
+        private AdmCursoActivity activity;
+        public GetCurso(String apiUrl, AdmCursoActivity activity) {
+            super ();
+            this.apiUrl = apiUrl;
+            this.activity = activity;
+        }
+
+
+
+        protected String doInBackground(URL... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String json = "";
+            try {
+                url = new URL(this.apiUrl);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+
+
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader isw = new InputStreamReader(in,"UTF-8");
+                BufferedReader stringBufer= new BufferedReader(isw);
+
+                String data = "";
+                while ((data = stringBufer.readLine()) != null)
+                    json +=data;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return json;
+
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            JSONArray jsonArray = null;
+            Gson gson = new Gson();
+            ArrayList<CarreraModel> carreras = new ArrayList<>();
+            try {
+                jsonArray = new JSONArray(result);
+                for (int i=0;i<jsonArray.length();i++){
+                    //carreras.add( gson.fromJson(jsonArray.getString(i), CarreraModel.class));
+                    model.addCurso(gson.fromJson(jsonArray.getString(i), CursoModel.class));
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            cursoList = model.getCursos();
+            mAdapter = new CursoAdapter(cursoList, activity);
+            coordinatorLayout = findViewById(R.id.coordinator_layoutCu);
+
+            // white background notification bar
+            whiteNotificationBar(mRecyclerView);
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(activity, DividerItemDecoration.VERTICAL));
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

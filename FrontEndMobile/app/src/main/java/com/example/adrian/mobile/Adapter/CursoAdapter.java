@@ -1,6 +1,8 @@
 package com.example.adrian.mobile.Adapter;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +14,27 @@ import android.widget.TextView;
 import com.example.adrian.mobile.Models.CursoModel;
 import com.example.adrian.mobile.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder> implements Filterable {
     private List<CursoModel> cursoList;
     private List<CursoModel> cursoListFiltered;
     private CursoAdapterListener listener;
     private CursoModel deletedItem;
+
+    private  static final  String URL_DELETE =  "http://192.168.0.119:8080/ServerWeb/buscarCurso?ID=%s";
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView titulo1, titulo2, description;
@@ -79,10 +92,13 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
     public void removeItem(int position) {
         deletedItem = cursoListFiltered.remove(position);
         Iterator<CursoModel> iter = cursoList.iterator();
+        DeleteCurso curso;
         while (iter.hasNext()) {
             CursoModel aux = iter.next();
             if (deletedItem.equals(aux))
                 iter.remove();
+                curso = new DeleteCurso(URL_DELETE,deletedItem.getCodigo());
+                curso.execute();
         }
         // notify item removed
         notifyItemRemoved(position);
@@ -169,5 +185,60 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
 
     public interface CursoAdapterListener {
         void onContactSelected(CursoModel curso);
+    }
+
+    class DeleteCurso extends AsyncTask<String, Integer, String> {
+        private String apiUrl;
+        private int codigo;
+        public DeleteCurso(String URL, int codigo){
+            this.apiUrl= URL;
+            this.codigo = codigo;
+        }
+        protected String doInBackground(String... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String query ="";
+            try {
+                query = String.format(apiUrl, this.codigo);
+                url = new URL(query);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("DELETE");
+                urlConnection.setReadTimeout(15000 /* milliseconds */);
+                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+
+                int responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    urlConnection.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+                    while ((line = in.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    in.close();
+                    return sb.toString();
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            // do something on the UI thread
+        }
     }
 }

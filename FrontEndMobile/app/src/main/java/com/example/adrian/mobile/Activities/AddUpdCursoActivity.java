@@ -1,6 +1,7 @@
 package com.example.adrian.mobile.Activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.adrian.mobile.Models.CarreraModel;
@@ -16,9 +17,21 @@ import android.widget.Toast;
 
 import com.example.adrian.mobile.AccesoDatos.Model;
 import com.example.adrian.mobile.R;
+import com.google.gson.JsonObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class AddUpdCursoActivity extends AppCompatActivity {
     private FloatingActionButton fBtn;
@@ -31,6 +44,8 @@ public class AddUpdCursoActivity extends AppCompatActivity {
     private EditText anhoFld;
 
     private Model model;
+    private  static final  String URL_POST =  "http://192.168.0.119:8080/ServerWeb/insertarCurso";
+    private  static final  String URL_PUT =  "http://192.168.0.119:8080/ServerWeb/actualizarCurso";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +110,6 @@ public class AddUpdCursoActivity extends AppCompatActivity {
         if (validateForm()) {
             //do something
             CarreraModel carr = buscarCarrera(model.getCarreras(), (CarreraModel)carreras.getSelectedItem());
-
             CursoModel cur = new CursoModel(
                     Integer.parseInt(codFld.getText().toString()),
                     Integer.parseInt(creditosFld.getText().toString()),
@@ -104,6 +118,8 @@ public class AddUpdCursoActivity extends AppCompatActivity {
                     anhoFld.getText().toString(),
                     ciclos.getSelectedItem().toString()
             );
+            IncertCurso incertar = new IncertCurso(URL_POST,cur);
+            incertar.execute();
 
             Intent intent = new Intent(getBaseContext(), AdmCursoActivity.class);
             //sending curso data
@@ -125,6 +141,8 @@ public class AddUpdCursoActivity extends AppCompatActivity {
                     anhoFld.getText().toString(),
                     ciclos.getSelectedItem().toString()
                     );
+            UpdateCurso actualizar = new UpdateCurso(URL_PUT,cur);
+            actualizar.execute();
             Intent intent = new Intent(getBaseContext(), AdmCursoActivity.class);
             //sending curso data
             intent.putExtra("editCurso", cur);
@@ -194,5 +212,137 @@ public class AddUpdCursoActivity extends AppCompatActivity {
         }
 
         return 0;
+    }
+
+    class UpdateCurso extends AsyncTask<String, Integer, String> {
+        private String apiUrl;
+        private CursoModel curso;
+
+        public UpdateCurso(String URL, CursoModel curso){
+            this.apiUrl= URL;
+            this.curso = curso;
+        }
+        protected String doInBackground(String... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String query ="";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("codigo",curso.getCodigo());
+            jsonObject.addProperty("nombre",curso.getNombre());
+            jsonObject.addProperty("creditos",curso.getCreditos());
+            jsonObject.addProperty("horas",curso.getHoras());
+            try {
+                query = String.format(apiUrl);
+                url = new URL(query);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("PUT");
+                urlConnection.setReadTimeout(15000 /* milliseconds */);
+                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    urlConnection.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+                    while ((line = in.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    in.close();
+                    return sb.toString();
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            // do something on the UI thread
+        }
+    }
+
+    class IncertCurso extends AsyncTask<String, Integer, String> {
+        private String apiUrl;
+        private CursoModel curso;
+
+        public IncertCurso(String URL, CursoModel curso){
+            this.apiUrl= URL;
+            this.curso = curso;
+        }
+        protected String doInBackground(String... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String query ="";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("codigo",curso.getCodigo());
+            jsonObject.addProperty("nombre",curso.getNombre());
+            jsonObject.addProperty("creditos",curso.getCreditos());
+            jsonObject.addProperty("horas",curso.getHoras());
+            try {
+                query = String.format(apiUrl);
+                url = new URL(query);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setReadTimeout(15000 /* milliseconds */);
+                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    urlConnection.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+                    while ((line = in.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    in.close();
+                    return sb.toString();
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            // do something on the UI thread
+        }
     }
 }
