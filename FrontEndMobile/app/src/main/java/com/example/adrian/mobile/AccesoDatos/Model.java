@@ -104,22 +104,22 @@ public class Model implements Serializable {
         CursoModel curso = new CursoModel();
 
         // Creacion de la primer carrera
-        CarreraModel carrera = new CarreraModel(1, "Ingenieria","Bachillerato");
+        CarreraModel carrera = new CarreraModel(6, "Ingenieria","Bachillerato");
         curso = this.getCursoIndex(0);
         curso.setAnho("Primero").setCiclo("Ciclo II");
-        carrera.addCurso(curso);
+        //carrera.addCurso(curso);
 
         curso = this.getCursoIndex(2);
         curso.setAnho("Segundo").setCiclo("Ciclo I");
-        carrera.addCurso(curso);
-        carreras.add(carrera);
+        //carrera.addCurso(curso);
+        //carreras.add(carrera);
 
         // Creacion de la segunda carrera
-        carrera = new CarreraModel(2, "Ingles", "Bachillerato");
+        carrera = new CarreraModel(8 ,"Ingles", "Bachillerato");
         curso = this.getCursoIndex(1);
         curso.setAnho("Tercer").setCiclo("Ciclo I");
-        carrera.addCurso(curso);
-        carreras.add(carrera);
+        //carrera.addCurso(curso);
+        //carreras.add(carrera);
 
         this.carreras = carreras;
     }

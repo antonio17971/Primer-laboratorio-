@@ -326,7 +326,7 @@ public class Cursos extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         
-        Control contro = new Control();
+        Control contro = Control.getInstance();
          System.out.println(retornarPrimerCampo());
         try {
             contro.borrarCurso(retornarPrimerCampo());
