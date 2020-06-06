@@ -34,7 +34,7 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
     private CursoAdapterListener listener;
     private CursoModel deletedItem;
 
-    private  static final  String URL_DELETE =  "http://192.168.0.119:8080/ServerWeb/buscarCurso?ID=%s";
+    private  static final  String URL_DELETE =  "http://192.168.0.119:8080/ServerWeb/borrarCurso?ID=%s";
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView titulo1, titulo2, description;

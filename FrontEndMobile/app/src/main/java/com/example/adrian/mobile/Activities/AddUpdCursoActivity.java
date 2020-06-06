@@ -72,8 +72,8 @@ public class AddUpdCursoActivity extends AppCompatActivity {
 
         model = new Model();
 
-        loadCarreras();
-        loadCiclos();
+        //loadCarreras();
+        //loadCiclos();
 
         //receiving data from admCursoActivity
         Bundle extras = getIntent().getExtras();
@@ -82,7 +82,7 @@ public class AddUpdCursoActivity extends AppCompatActivity {
             editable = extras.getBoolean("editable");
             if (editable) {   // is editing some row
                 CursoModel aux = (CursoModel) getIntent().getSerializableExtra("curso");
-                codFld.setText(aux.getCodigo());
+                codFld.setText(Integer.toString(aux.getCodigo()));
                 codFld.setEnabled(false);
                 nomFld.setText(aux.getNombre());
                 creditosFld.setText(Integer.toString(aux.getCreditos()));
@@ -109,14 +109,20 @@ public class AddUpdCursoActivity extends AppCompatActivity {
     public void addCurso() {
         if (validateForm()) {
             //do something
-            CarreraModel carr = buscarCarrera(model.getCarreras(), (CarreraModel)carreras.getSelectedItem());
-            CursoModel cur = new CursoModel(
+            //CarreraModel carr = buscarCarrera(model.getCarreras(), (CarreraModel)carreras.getSelectedItem());
+            /*CursoModel cur = new CursoModel(
                     Integer.parseInt(codFld.getText().toString()),
                     Integer.parseInt(creditosFld.getText().toString()),
                     Integer.parseInt(horasFld.getText().toString()),
                     nomFld.getText().toString(),
                     anhoFld.getText().toString(),
                     ciclos.getSelectedItem().toString()
+            );*/
+            CursoModel cur = new CursoModel(
+                    Integer.parseInt(codFld.getText().toString()),
+                    Integer.parseInt(creditosFld.getText().toString()),
+                    Integer.parseInt(horasFld.getText().toString()),
+                    nomFld.getText().toString()
             );
             IncertCurso incertar = new IncertCurso(URL_POST,cur);
             incertar.execute();
@@ -131,16 +137,22 @@ public class AddUpdCursoActivity extends AppCompatActivity {
 
     public void editCurso() {
         if (validateForm()) {
-            CarreraModel carr = buscarCarrera(model.getCarreras(), (CarreraModel)carreras.getSelectedItem());
+            //CarreraModel carr = buscarCarrera(model.getCarreras(), (CarreraModel)carreras.getSelectedItem());
 
-            CursoModel cur = new CursoModel(
+            /*CursoModel cur = new CursoModel(
                     Integer.parseInt(codFld.getText().toString()),
                     Integer.parseInt(creditosFld.getText().toString()),
                     Integer.parseInt(horasFld.getText().toString()),
                     nomFld.getText().toString(),
                     anhoFld.getText().toString(),
                     ciclos.getSelectedItem().toString()
-                    );
+                    );*/
+            CursoModel cur = new CursoModel(
+                    Integer.parseInt(codFld.getText().toString()),
+                    Integer.parseInt(creditosFld.getText().toString()),
+                    Integer.parseInt(horasFld.getText().toString()),
+                    nomFld.getText().toString()
+            );
             UpdateCurso actualizar = new UpdateCurso(URL_PUT,cur);
             actualizar.execute();
             Intent intent = new Intent(getBaseContext(), AdmCursoActivity.class);

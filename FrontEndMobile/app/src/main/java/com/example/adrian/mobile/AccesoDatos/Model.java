@@ -92,35 +92,35 @@ public class Model implements Serializable {
     private void initCursos(){
         this.cursos = new ArrayList<CursoModel>(){
             {
-                add(new CursoModel(1, 4, 5,"Programación 1"));
-                add(new CursoModel(2, 3, 4,"Inglés 3"));
-                add(new CursoModel(3, 5, 5,"Diseño Movil"));
+                //add(new CursoModel(1, 4, 5,"Programación 1"));
+                //add(new CursoModel(2, 3, 4,"Inglés 3"));
+                //add(new CursoModel(3, 5, 5,"Diseño Movil"));
             }
         };
     }
 
     private void initCarreras(){
-        ArrayList<CarreraModel> carreras = new ArrayList<CarreraModel>();
-        CursoModel curso = new CursoModel();
+       // ArrayList<CarreraModel> carreras = new ArrayList<CarreraModel>();
+        //CursoModel curso = new CursoModel();
 
         // Creacion de la primer carrera
-        CarreraModel carrera = new CarreraModel(6, "Ingenieria","Bachillerato");
-        curso = this.getCursoIndex(0);
-        curso.setAnho("Primero").setCiclo("Ciclo II");
+        //CarreraModel carrera = new CarreraModel(6, "Ingenieria","Bachillerato");
+        //curso = this.getCursoIndex(0);
+        //curso.setAnho("Primero").setCiclo("Ciclo II");
         //carrera.addCurso(curso);
 
-        curso = this.getCursoIndex(2);
-        curso.setAnho("Segundo").setCiclo("Ciclo I");
+        //curso = this.getCursoIndex(2);
+        //curso.setAnho("Segundo").setCiclo("Ciclo I");
         //carrera.addCurso(curso);
         //carreras.add(carrera);
 
         // Creacion de la segunda carrera
-        carrera = new CarreraModel(8 ,"Ingles", "Bachillerato");
-        curso = this.getCursoIndex(1);
-        curso.setAnho("Tercer").setCiclo("Ciclo I");
+        //carrera = new CarreraModel(8 ,"Ingles", "Bachillerato");
+        //curso = this.getCursoIndex(1);
+        //curso.setAnho("Tercer").setCiclo("Ciclo I");
         //carrera.addCurso(curso);
         //carreras.add(carrera);
 
-        this.carreras = carreras;
+        //this.carreras = carreras;
     }
 }
