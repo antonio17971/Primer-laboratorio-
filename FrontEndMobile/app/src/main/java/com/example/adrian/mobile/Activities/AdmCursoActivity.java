@@ -249,6 +249,7 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
                         //Toast.makeText(getApplicationContext(), aux.getNombre() + " editado correctamente", Toast.LENGTH_LONG).show();
                     } else {
                         //Toast.makeText(getApplicationContext(), aux.getNombre() + " no encontrado", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), aux.getNombre() + " editado correctamente", Toast.LENGTH_LONG).show();
                     }
                 }
             } else {

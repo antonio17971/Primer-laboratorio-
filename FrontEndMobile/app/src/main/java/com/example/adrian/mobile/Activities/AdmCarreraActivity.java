@@ -121,6 +121,7 @@ public class AdmCarreraActivity extends AppCompatActivity implements RecyclerIte
                         //Toast.makeText(getApplicationContext(), aux.getNombre() + " editado correctamente", Toast.LENGTH_LONG).show();
                     } else {
                         //Toast.makeText(getApplicationContext(), aux.getNombre() + " no encontrado", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), aux.getNombre() + " editado correctamente", Toast.LENGTH_LONG).show();
                     }
                 }
             } else {
