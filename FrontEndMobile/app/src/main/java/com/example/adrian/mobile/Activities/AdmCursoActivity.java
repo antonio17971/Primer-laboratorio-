@@ -67,7 +67,7 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
         setSupportActionBar(toolbar);
 
         mRecyclerView = findViewById(R.id.recycler_cursoFld);
-        model = new Model();
+        model =Model.getInstance();
 
         GetCurso cursos = new GetCurso(URL, this);
         cursos.execute();
@@ -233,28 +233,28 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
                 if (aux != null) {
                     //found an item that can be updated
                     boolean founded = false;
-                    for (CursoModel curso : cursoList) {
-                        if (String.valueOf(curso.getCodigo()).equals(aux.getCodigo())) {
-                            curso.setNombre(aux.getNombre());
-//                            curso.setCodigo_carrera(aux.getCodigo_carrera());
-//                            curso.setCodigo_ciclo(aux.getCodigo_ciclo());
-                            curso.setCreditos(aux.getCreditos());
-                            curso.setHoras(aux.getHoras());
-                            founded = true;
-                            break;
-                        }
-                    }
+//                    for (CursoModel curso : cursoList) {
+//                        if (String.valueOf(curso.getCodigo()).equals(aux.getCodigo())) {
+//                            curso.setNombre(aux.getNombre());
+////                            curso.setCodigo_carrera(aux.getCodigo_carrera());
+////                            curso.setCodigo_ciclo(aux.getCodigo_ciclo());
+//                            curso.setCreditos(aux.getCreditos());
+//                            curso.setHoras(aux.getHoras());
+//                            founded = true;
+//                            break;
+//                        }
+//                    }
                     //check if exist
                     if (founded) {
-                        Toast.makeText(getApplicationContext(), aux.getNombre() + " editado correctamente", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), aux.getNombre() + " editado correctamente", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), aux.getNombre() + " no encontrado", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), aux.getNombre() + " no encontrado", Toast.LENGTH_LONG).show();
                     }
                 }
             } else {
                 //found a new CursoModel Object
-                cursoList.add(aux);
-                model.addCurso(aux);
+                //cursoList.add(aux);
+                //model.addCurso(aux);
                 Toast.makeText(getApplicationContext(), aux.getNombre() + " agregado correctamente", Toast.LENGTH_LONG).show();
             }
         }
@@ -316,14 +316,14 @@ public class AdmCursoActivity extends AppCompatActivity implements RecyclerItemT
         protected void onPostExecute(String result) {
             JSONArray jsonArray = null;
             Gson gson = new Gson();
-            ArrayList<CarreraModel> carreras = new ArrayList<>();
+            ArrayList<CursoModel> cursos = new ArrayList<>();
             try {
                 jsonArray = new JSONArray(result);
                 for (int i=0;i<jsonArray.length();i++){
                     //carreras.add( gson.fromJson(jsonArray.getString(i), CarreraModel.class));
-                    model.addCurso(gson.fromJson(jsonArray.getString(i), CursoModel.class));
+                    cursos.add(gson.fromJson(jsonArray.getString(i), CursoModel.class));
                 }
-
+                model.setCursos(cursos);
 
             } catch (JSONException e) {
                 e.printStackTrace();

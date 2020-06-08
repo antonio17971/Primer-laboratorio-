@@ -13,11 +13,14 @@ import android.widget.TextView;
 
 import com.example.adrian.mobile.Models.CursoModel;
 import com.example.adrian.mobile.R;
+import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -35,6 +38,7 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
     private CursoModel deletedItem;
 
     private  static final  String URL_DELETE =  "http://192.168.0.119:8080/ServerWeb/borrarCurso?ID=%s";
+    private  static final  String URL_INCERTAR =  "http://192.168.0.119:8080/ServerWeb/insertarCurso";
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView titulo1, titulo2, description;
@@ -112,6 +116,8 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
             cursoListFiltered.add(position, deletedItem);
             cursoList.add(deletedItem);
         }
+        IncertCurso incertar = new IncertCurso(URL_INCERTAR,deletedItem);
+        incertar.execute();
         notifyDataSetChanged();
         // notify item added by position
         notifyItemInserted(position);
@@ -208,6 +214,71 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.MyViewHolder
                 urlConnection.setDoInput(true);
                 urlConnection.setDoOutput(true);
                 OutputStream os = urlConnection.getOutputStream();
+
+                int responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    urlConnection.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+                    while ((line = in.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    in.close();
+                    return sb.toString();
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            // do something on the UI thread
+        }
+    }
+    class IncertCurso extends AsyncTask<String, Integer, String> {
+        private String apiUrl;
+        private CursoModel curso;
+
+        public IncertCurso(String URL, CursoModel curso){
+            this.apiUrl= URL;
+            this.curso = curso;
+        }
+        protected String doInBackground(String... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String query ="";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("codigo",curso.getCodigo());
+            jsonObject.addProperty("nombre",curso.getNombre());
+            jsonObject.addProperty("creditos",curso.getCreditos());
+            jsonObject.addProperty("horas",curso.getHoras());
+            try {
+                query = String.format(apiUrl);
+                url = new URL(query);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setReadTimeout(15000 /* milliseconds */);
+                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
 
                 int responseCode = urlConnection.getResponseCode();
                 if (responseCode == HttpsURLConnection.HTTP_OK) {

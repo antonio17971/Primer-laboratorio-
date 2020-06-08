@@ -13,19 +13,35 @@ public class Model implements Serializable {
     private ArrayList<UserModel> users;
     private ArrayList<CursoModel> cursos;
     private ArrayList<CarreraModel> carreras;
+    private static Model instance;
 
-    public Model(UserModel loggedUser, ArrayList<UserModel> users, ArrayList<CursoModel> cursos, ArrayList<CarreraModel> carreras){
+    private Model(UserModel loggedUser, ArrayList<UserModel> users, ArrayList<CursoModel> cursos, ArrayList<CarreraModel> carreras){
         this.loggedUser = loggedUser;
         this.users = users;
         this.cursos = cursos;
         this.carreras = carreras;
     }
 
-    public Model(){
+    private Model(){
         this.loggedUser = null;
         this.initUsers();
         this.initCursos();
         this.initCarreras();
+    }
+
+    public void setCursos(ArrayList<CursoModel> cursos) {
+        this.cursos = cursos;
+    }
+
+    public void setCarreras(ArrayList<CarreraModel> carreras) {
+        this.carreras = carreras;
+    }
+
+    public static Model getInstance() {
+        if (instance == null) {
+            instance = new Model();
+        }
+        return instance;
     }
 
     public UserModel getLoggedUser(){
@@ -100,8 +116,8 @@ public class Model implements Serializable {
     }
 
     private void initCarreras(){
-       // ArrayList<CarreraModel> carreras = new ArrayList<CarreraModel>();
-        //CursoModel curso = new CursoModel();
+        ArrayList<CarreraModel> carreras = new ArrayList<CarreraModel>();
+        CursoModel curso = new CursoModel();
 
         // Creacion de la primer carrera
         //CarreraModel carrera = new CarreraModel(6, "Ingenieria","Bachillerato");
@@ -121,6 +137,6 @@ public class Model implements Serializable {
         //carrera.addCurso(curso);
         //carreras.add(carrera);
 
-        //this.carreras = carreras;
+        this.carreras = carreras;
     }
 }

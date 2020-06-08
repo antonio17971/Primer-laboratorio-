@@ -70,7 +70,7 @@ public class AdmCarreraActivity extends AppCompatActivity implements RecyclerIte
 
         mRecyclerView = findViewById(R.id.recycler_carreraFld);
         carreraList = new ArrayList<>();
-        model = new Model();
+        model = Model.getInstance();
         GetCarreras getLista = new GetCarreras(this.URL, this);
         getLista.execute();
 
@@ -108,24 +108,24 @@ public class AdmCarreraActivity extends AppCompatActivity implements RecyclerIte
                 if (aux != null) {
                     //found an item that can be updated
                     boolean founded = false;
-                    for (CarreraModel carrera : carreraList) {
-                        if (carrera.getCodigo() == aux.getCodigo()) {
-                            carrera.setNombre(aux.getNombre());
-                            carrera.setTitulo(aux.getTitulo());
-                            founded = true;
-                            break;
-                        }
-                    }
+//                    for (CarreraModel carrera : carreraList) {
+//                        if (carrera.getCodigo() == aux.getCodigo()) {
+//                            carrera.setNombre(aux.getNombre());
+//                            carrera.setTitulo(aux.getTitulo());
+//                            founded = true;
+//                            break;
+//                        }
+//                    }
                     //check if exist
                     if (founded) {
-                        Toast.makeText(getApplicationContext(), aux.getNombre() + " editado correctamente", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), aux.getNombre() + " editado correctamente", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), aux.getNombre() + " no encontrado", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), aux.getNombre() + " no encontrado", Toast.LENGTH_LONG).show();
                     }
                 }
             } else {
                 //found a new CarreraModel Object
-                carreraList.add(aux);
+                //carreraList.add(aux);
                 Toast.makeText(getApplicationContext(), aux.getNombre() + " agregado correctamente", Toast.LENGTH_LONG).show();
             }
         }
@@ -306,9 +306,9 @@ public class AdmCarreraActivity extends AppCompatActivity implements RecyclerIte
                 jsonArray = new JSONArray(result);
                 for (int i=0;i<jsonArray.length();i++){
                     //carreras.add( gson.fromJson(jsonArray.getString(i), CarreraModel.class));
-                    model.addCarrera(gson.fromJson(jsonArray.getString(i), CarreraModel.class));
+                    carreras.add(gson.fromJson(jsonArray.getString(i), CarreraModel.class));
                 }
-
+                model.setCarreras(carreras);
 
             } catch (JSONException e) {
                 e.printStackTrace();

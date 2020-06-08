@@ -10,8 +10,10 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.adrian.mobile.Models.CarreraModel;
+import com.example.adrian.mobile.Models.CursoModel;
 import com.example.adrian.mobile.R;
 import com.google.gson.JsonObject;
 
@@ -37,6 +39,7 @@ public class CarreraAdapter extends RecyclerView.Adapter<CarreraAdapter.MyViewHo
     private CarreraAdapterListener listener;
     private CarreraModel deletedItem;
     private  static final  String URL_DELETE =  "http://192.168.0.119:8080/ServerWeb/borrarCarrera?ID=%s";
+    private  static final  String URL_INCERTAR =  "http://192.168.0.119:8080/ServerWeb/incertarCarrera";
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -110,12 +113,15 @@ public class CarreraAdapter extends RecyclerView.Adapter<CarreraAdapter.MyViewHo
 
     public void restoreItem(int position) {
 
+
         if (carreraListFiltered.size() == carreraList.size()) {
             carreraListFiltered.add(position, deletedItem);
         } else {
             carreraListFiltered.add(position, deletedItem);
             carreraList.add(deletedItem);
         }
+        IncertCarrera incertar = new IncertCarrera(URL_INCERTAR,deletedItem);
+        incertar.execute();
         notifyDataSetChanged();
         // notify item added by position
         notifyItemInserted(position);
@@ -246,4 +252,72 @@ public class CarreraAdapter extends RecyclerView.Adapter<CarreraAdapter.MyViewHo
         }
     }
 
+    class IncertCarrera extends AsyncTask<String, Integer, String> {
+        private String apiUrl;
+        private CarreraModel carrera;
+
+        public IncertCarrera(String URL, CarreraModel carrera){
+            this.apiUrl= URL;
+            this.carrera = carrera;
+        }
+        protected String doInBackground(String... urls) {
+            URL url ;
+            HttpURLConnection urlConnection = null;
+            String query ="";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("codigo",carrera.getCodigo());
+            jsonObject.addProperty("nombre",carrera.getNombre());
+            jsonObject.addProperty("titulo",carrera.getTitulo());
+            int responseCode = 0;
+            try {
+                query = String.format(apiUrl);
+                url = new URL(query);
+                urlConnection =  (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setReadTimeout(15000 /* milliseconds */);
+                urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    urlConnection.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+                    while ((line = in.readLine()) != null) {
+                        sb.append(line);
+                        break;
+                    }
+                    in.close();
+                    return ""+0;
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return new String("false : " + responseCode);
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            // optionally report progress
+        }
+
+        protected void onPostExecute(String result) {
+            // do something on the UI thread
+            if(result == "0"){
+
+            }
+        }
+    }
 }

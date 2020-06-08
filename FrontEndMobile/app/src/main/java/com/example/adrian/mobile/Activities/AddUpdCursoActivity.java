@@ -58,19 +58,19 @@ public class AddUpdCursoActivity extends AppCompatActivity {
 
         //cleaning stuff
         codFld = findViewById(R.id.codigoAddUpdCurso);
-        carreras = (Spinner) findViewById(R.id.sp_carreras);
-        ciclos = (Spinner) findViewById(R.id.sp_ciclos);
+        //carreras = (Spinner) findViewById(R.id.sp_carreras);
+        //ciclos = (Spinner) findViewById(R.id.sp_ciclos);
         nomFld = findViewById(R.id.nombreAddUpdCurso);
         creditosFld = findViewById(R.id.creditosAddUpdCurso);
         horasFld = findViewById(R.id.horasAddUpdCiclo);
-        anhoFld = findViewById(R.id.anhoAddUpdCurso);
+        //anhoFld = findViewById(R.id.anhoAddUpdCurso);
         codFld.setText("");
         nomFld.setText("");
         creditosFld.setText("");
         horasFld.setText("");
-        anhoFld.setText("");
+       //anhoFld.setText("");
 
-        model = new Model();
+        //model = new Model();
 
         //loadCarreras();
         //loadCiclos();
@@ -190,10 +190,10 @@ public class AddUpdCursoActivity extends AppCompatActivity {
             horasFld.setError("Horas requerido");
             error++;
         }
-        if (TextUtils.isEmpty(this.anhoFld.getText())) {
-            anhoFld.setError("Año requerido");
-            error++;
-        }
+//        if (TextUtils.isEmpty(this.anhoFld.getText())) {
+//            anhoFld.setError("Año requerido");
+//            error++;
+//        }
         if (error > 0) {
             Toast.makeText(getApplicationContext(), "Algunos errores", Toast.LENGTH_LONG).show();
             return false;

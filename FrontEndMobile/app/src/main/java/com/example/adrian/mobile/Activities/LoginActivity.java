@@ -37,8 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        this.model = new Model();
-
+        this.model = Model.getInstance();
         this.mUsername = (EditText) findViewById(R.id.email);
         this.mPassword = (EditText) findViewById(R.id.password);
         this.mLogin = (Button) findViewById(R.id.loginBtn);
@@ -53,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                         message = getString(R.string.login_success, user.getDisplayName());
                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.putExtra("model", model);
+                        //intent.putExtra("model", model);
                         LoginActivity.this.startActivity(intent);
                     }
                 }
